@@ -96,6 +96,8 @@
   .tag{font-family:"Space Grotesk",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
     padding:5px 11px;border-radius:999px;white-space:nowrap;font-weight:600}
   .tag.onus{background:rgba(217,139,139,.14);color:var(--rose);border:1px solid rgba(217,139,139,.3)}
+  .tag.paid-status{background:rgba(127,163,137,.14);color:var(--pine);border:1px solid rgba(127,163,137,.3)}
+  .tag.pending{background:rgba(236,228,212,.06);color:var(--limestone-dim);border:1px solid var(--line)}
   .btn-paid{font-family:"Space Grotesk",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
     padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);background:transparent;
     color:var(--limestone-dim);cursor:pointer;font-weight:600;transition:all .18s}
@@ -179,6 +181,18 @@
 </head>
 <body>
 <div class="wrap">
+
+  <div id="admin-bar" style="display:none;background:rgba(232,162,61,.1);border:1px solid rgba(232,162,61,.25);border-radius:var(--radius);padding:16px 20px;margin-bottom:28px">
+    <div style="font-family:'Space Grotesk',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--lamp-soft);margin-bottom:10px">Admin mode</div>
+    <div id="admin-setup">
+      <p style="font-size:.85rem;color:var(--limestone-dim);margin-bottom:12px">Paste a fine-grained GitHub PAT with <b style="color:var(--limestone)">Contents: read &amp; write</b> access to this repo.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input id="gh-token" type="password" placeholder="github_pat_…" style="flex:1;min-width:220px;background:var(--water-deep);border:1px solid rgba(232,162,61,.35);border-radius:10px;padding:10px 14px;color:var(--limestone);font-family:'Space Grotesk',monospace;font-size:.88rem">
+        <button onclick="saveToken()" style="background:var(--lamp);color:#0c2531;border:0;border-radius:10px;padding:10px 20px;font-family:'Space Grotesk',monospace;font-weight:700;font-size:.82rem;cursor:pointer;white-space:nowrap">Save token</button>
+      </div>
+    </div>
+    <div id="admin-ready" style="display:none;font-size:.88rem;color:var(--pine)">Payment sync active — changes save to GitHub automatically.</div>
+  </div>
 
   <header class="hero">
     <div class="eyebrow">Borghamn · Vättern · 2026</div>
@@ -275,14 +289,19 @@
 </div>
 
 <script>
-const BF = 378; // breakfast per person, 2 mornings
-// guarded localStorage: persists when hosted, no-ops safely in preview
-const KEY="borghamn_v1"; let mem={};
-const store={
-  load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return mem; } },
-  save(o){ mem=o; try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+const BF = 378;
+const KEY = "borghamn_v1";
+const ADMIN_SECRET = 'borghamn26';
+const GH_API = 'https://api.github.com/repos/fredespi/borghamn-2026/contents/paid.json';
+const TOKEN_KEY = 'borghamn_gh_token';
+const isAdmin = new URLSearchParams(location.search).get('admin') === ADMIN_SECRET;
+let ghToken = ''; try { ghToken = localStorage.getItem(TOKEN_KEY) || ''; } catch(e) {}
+let paidSha = null;
+let paidData = { paid: {} };
+const store = {
+  load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; } },
+  save(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch(e) {} }
 };
-const saved=store.load();
 const roomPrice = {K1:1760,K2:2940,K3:1760,K4:1760,K5:1760,K6:1760,K7:2940,K8:4400,K9:4400,K10:3500,Lillstugan:1500};
 const roomMeta = {
   K1:{t:"2-bed · shared bath",beds:2}, K2:{t:"4-bed · shared bath",beds:4},
@@ -308,9 +327,47 @@ households.forEach(h=>{
   h.roomTotal = h.rooms.reduce((s,r)=>s+roomPrice[r],0);
   h.bfTotal = h.people*BF;
   h.total = h.roomTotal + h.bfTotal;
-  h.paid = !!(saved.paid && saved.paid[h.id]);
+  h.paid = false; // set by loadPaidState after GitHub fetch
 });
 const fmt = n => n.toLocaleString("sv-SE");
+
+async function loadPaidState() {
+  document.getElementById('owing').innerHTML = '<div style="color:var(--limestone-dim);font-size:.9rem;padding:16px 0">Loading…</div>';
+  try {
+    const headers = ghToken ? { 'Authorization': `Bearer ${ghToken}` } : {};
+    const res = await fetch(GH_API, { headers });
+    if (res.ok) {
+      const data = await res.json();
+      paidSha = data.sha;
+      paidData = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    }
+  } catch(e) {}
+  households.forEach(h => { h.paid = !!(paidData.paid && paidData.paid[h.id]); });
+  renderHouseholds();
+  renderWindows();
+}
+
+async function savePaidState() {
+  if (!ghToken) return;
+  const json = JSON.stringify(paidData);
+  const content = btoa(unescape(encodeURIComponent(json)));
+  try {
+    const res = await fetch(GH_API, {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${ghToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Update paid state', content, sha: paidSha })
+    });
+    if (res.ok) { const d = await res.json(); paidSha = d.content.sha; }
+  } catch(e) { console.error('Failed to save paid state:', e); }
+}
+
+function saveToken() {
+  ghToken = document.getElementById('gh-token').value.trim();
+  try { localStorage.setItem(TOKEN_KEY, ghToken); } catch(e) {}
+  document.getElementById('admin-setup').style.display = 'none';
+  document.getElementById('admin-ready').style.display = '';
+  loadPaidState();
+}
 
 function roomLabel(h){
   return h.rooms.map(r=> r==="Lillstugan" ? "Lillstugan" : r).join(" + ");
@@ -335,7 +392,9 @@ function renderHouseholds(){
         </div>
         <div class="hh-side" style="display:contents">
           <div class="hh-amt">${fmt(h.total)} <span class="kr">kr</span></div>
-          <button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>
+          ${isAdmin
+            ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>`
+            : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ Paid':'Pending'}</span>`}
         </div>
       </div>
       <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
@@ -367,7 +426,9 @@ function togglePaid(id,e){
   const card=document.querySelector(`.hh[data-id="${id}"]`);
   card.classList.toggle("paid",h.paid);
   card.querySelector(".btn-paid").textContent = h.paid?"✓ Paid":"Mark paid";
-  const s=store.load(); s.paid=s.paid||{}; s.paid[h.id]=h.paid; store.save(s);
+  if (!paidData.paid) paidData.paid = {};
+  paidData.paid[h.id] = h.paid;
+  savePaidState();
   updateProgress(); renderWindows();
 }
 function updateProgress(){
@@ -461,14 +522,24 @@ function copyMsg(){
     setTimeout(()=>{b.textContent="Copy message";b.classList.remove("done");},1800);
   });
 }
-(function(){ if(saved.swish) document.getElementById("swish").value=saved.swish;
-  if(saved.due) document.getElementById("due").value=saved.due; })();
+(function(){
+  const saved = store.load();
+  if(saved.swish) document.getElementById("swish").value=saved.swish;
+  if(saved.due) document.getElementById("due").value=saved.due;
+})();
 function persistFields(){ const s=store.load(); s.swish=document.getElementById("swish").value; s.due=document.getElementById("due").value; store.save(s); }
 document.getElementById("swish").addEventListener("input",()=>{renderMessage();persistFields();});
 document.getElementById("due").addEventListener("input",()=>{renderMessage();persistFields();});
 
-renderHouseholds();
-renderWindows();
+if (isAdmin) {
+  const bar = document.getElementById('admin-bar');
+  bar.style.display = '';
+  if (ghToken) {
+    document.getElementById('admin-setup').style.display = 'none';
+    document.getElementById('admin-ready').style.display = '';
+  }
+}
+loadPaidState();
 renderMessage();
 </script>
 </body>
