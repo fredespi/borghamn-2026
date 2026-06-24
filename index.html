@@ -158,6 +158,20 @@
   .preview{margin-top:18px;background:var(--water-deep);border:1px solid var(--line);border-radius:12px;
     padding:18px;white-space:pre-wrap;font-size:.9rem;line-height:1.6;color:var(--limestone-dim);max-height:340px;overflow:auto}
 
+  /* ---------- programme ---------- */
+  .prog{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .prog-day{background:var(--water);padding:20px 18px}
+  .prog-date{font-family:"Space Grotesk",monospace;font-size:.72rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--lamp-soft);margin-bottom:14px}
+  .prog-event{display:flex;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .prog-event:last-child{border-bottom:0}
+  .prog-time{font-family:"Space Grotesk",monospace;font-size:.8rem;font-weight:600;
+    color:var(--limestone);min-width:48px;flex-shrink:0}
+  .prog-desc{font-size:.9rem;color:var(--limestone-dim);line-height:1.4}
+  .prog-note{display:block;font-size:.76rem;color:var(--limestone-dim);opacity:.65;margin-top:2px}
+  @media(max-width:640px){.prog{grid-template-columns:1fr}}
+
   /* ---------- practical ---------- */
   .practical{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;
     background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
@@ -265,11 +279,34 @@
     </div>
   </section>
 
+  <!-- PROGRAMME -->
+  <section id="programme">
+    <div class="sec-head"><h2>Programme</h2></div>
+    <div class="prog">
+      <div class="prog-day">
+        <div class="prog-date">Friday 28 Aug</div>
+        <div class="prog-event"><span class="prog-time">14:00</span><span class="prog-desc">Check-in opens</span></div>
+        <div class="prog-event"><span class="prog-time">14–17</span><span class="prog-desc">Sauna</span></div>
+        <div class="prog-event"><span class="prog-time">19:00</span><span class="prog-desc">Dinner<span class="prog-note">Restaurant · pre-order required · menu sent ~a week ahead</span></span></div>
+      </div>
+      <div class="prog-day">
+        <div class="prog-date">Saturday 29 Aug</div>
+        <div class="prog-event"><span class="prog-time">Morning</span><span class="prog-desc">Breakfast</span></div>
+        <div class="prog-event"><span class="prog-time">Evening</span><span class="prog-desc">BBQ dinner<span class="prog-note">We cook</span></span></div>
+      </div>
+      <div class="prog-day">
+        <div class="prog-date">Sunday 30 Aug</div>
+        <div class="prog-event"><span class="prog-time">Morning</span><span class="prog-desc">Breakfast</span></div>
+        <div class="prog-event"><span class="prog-time">12:00</span><span class="prog-desc">Check-out</span></div>
+      </div>
+    </div>
+  </section>
+
   <!-- PRACTICAL -->
   <section id="practical">
     <div class="sec-head"><h2>Good to know</h2></div>
     <div class="practical">
-      <div><h3>Arrival</h3><p>Check-in 15:00–18:00 Friday. Check-out by 12:00 Sunday.</p></div>
+      <div><h3>Arrival</h3><p>Check-in from 14:00 Friday. Check-out by 12:00 Sunday.</p></div>
       <div><h3>Keycards</h3><p>Room doors lock automatically — carry your card at all times, even to the bathroom at night.</p></div>
       <div><h3>Dinner</h3><p>Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.</p></div>
       <div><h3>Dogs</h3><p>Allowed only in K10 and Lillstugan. Jan &amp; Ingalill's dog in K10; our two in Lillstugan.</p></div>
