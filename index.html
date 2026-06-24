@@ -434,7 +434,7 @@ function renderWindows(){
     const h=households.find(x=>x.rooms.includes(r));
     let cls="win", status="";
     if(h.self){ if(h.paid){cls+=" settled";status="Paid ✓";} else {status="Awaiting Swish";} }
-    else { cls+=" lit"; status="On us ♥"; }
+    else { cls+=" settled"; status=""; }
     const who = (r==="K5") ? "Benji & Vilmer" : (h ? h.name : "");
     let badges="";
     if(m.suite) badges+='<span class="badge suite" title="Ensuite suite">✦</span>';
