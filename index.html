@@ -377,25 +377,50 @@ function detailHTML(h){
 function renderHouseholds(){
   const paying = households.filter(h=>h.self);
   const covered = households.filter(h=>!h.self);
-  const all = [...paying, ...covered];
-  document.getElementById("owing").innerHTML = all.map(h=>`
-    <div class="hh ${h.self&&h.paid?'paid':''}" data-id="${h.id}">
+  const coveredTotal = covered.reduce((s,h)=>s+h.total,0);
+  const coveredRooms = covered.flatMap(h=>h.rooms).join(' · ');
+
+  function coveredDetailHTML(){
+    let rows = covered.map(h=>
+      `<div><span class="muted">${h.name} · ${roomLabel(h)}${h.note?' · '+h.note:''}</span><span>${fmt(h.total)} kr</span></div>`
+    ).join('');
+    rows += `<div><span>Total</span><span><b>${fmt(coveredTotal)} kr</b></span></div>`;
+    rows += `<div class="ppl">${covered.reduce((s,h)=>s+h.people,0)} people · ${covered.length} rooms</div>`;
+    return rows;
+  }
+
+  const payingHTML = paying.map(h=>`
+    <div class="hh ${h.paid?'paid':''}" data-id="${h.id}">
       <div class="hh-row" onclick="toggleOpen('${h.id}',event)">
         <div>
           <div class="hh-name"><span class="chev">▶</span>${h.name}</div>
-          <div class="hh-for">${roomLabel(h)}${h.note? " · "+h.note:""}</div>
+          <div class="hh-for">${roomLabel(h)}${h.note?" · "+h.note:""}</div>
         </div>
         <div class="hh-side" style="display:contents">
           <div class="hh-amt">${fmt(h.total)} <span class="kr">kr</span></div>
-          ${h.self
-            ? (isAdmin
-                ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>`
-                : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ Paid':'Pending'}</span>`)
-            : ''}
+          ${isAdmin
+            ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>`
+            : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ Paid':'Pending'}</span>`}
         </div>
       </div>
       <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
-    </div>`).join("");
+    </div>`).join('');
+
+  const gfHTML = `
+    <div class="hh" data-id="gf-combined">
+      <div class="hh-row" onclick="toggleOpen('gf-combined',event)">
+        <div>
+          <div class="hh-name"><span class="chev">▶</span>Giedre &amp; Fredrik</div>
+          <div class="hh-for">${coveredRooms}</div>
+        </div>
+        <div class="hh-side" style="display:contents">
+          <div class="hh-amt">${fmt(coveredTotal)} <span class="kr">kr</span></div>
+        </div>
+      </div>
+      <div class="hh-detail"><div class="inner">${coveredDetailHTML()}</div></div>
+    </div>`;
+
+  document.getElementById("owing").innerHTML = payingHTML + gfHTML;
   updateProgress();
 }
 function toggleOpen(id,e){
