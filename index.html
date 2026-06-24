@@ -223,11 +223,11 @@
 
   <div class="stats">
     <div class="stat"><div class="n">11</div><div class="l">Rooms</div></div>
-    <div class="stat"><div class="n">38,308 <span class="kr">kr</span></div><div class="l">Booking total*</div></div>
-    <div class="stat"><div class="n">21,412 <span class="kr">kr</span></div><div class="l">Guests pay</div></div>
-    <div class="stat"><div class="n">16,518 <span class="kr">kr</span></div><div class="l">G&amp;F's share</div></div>
+    <div class="stat"><div class="n">40,808 <span class="kr">kr</span></div><div class="l">Booking total*</div></div>
+    <div class="stat"><div class="n">22,812 <span class="kr">kr</span></div><div class="l">Guests pay</div></div>
+    <div class="stat"><div class="n">17,618 <span class="kr">kr</span></div><div class="l">G&amp;F's share</div></div>
   </div>
-  <p style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*excludes dinner — priced about a week ahead</p>
+  <p style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*incl. Saturday BBQ · excl. Friday dinner (priced ~1 week ahead)</p>
 
   <!-- SETTLE UP -->
   <section id="settle">
@@ -238,8 +238,8 @@
 
     <div class="collect-card">
       <div class="collect-top">
-        <div class="big"><span id="collected">0</span> <small>/ 21,412 kr collected</small></div>
-        <div class="collect-sub"><span id="remaining">21,412</span> kr still out<br><span id="paidcount">0 of 5</span> households</div>
+        <div class="big"><span id="collected">0</span> <small>/ <span id="goal">22,812</span> kr collected</small></div>
+        <div class="collect-sub"><span id="remaining">22,812</span> kr still out<br><span id="paidcount">0 of 5</span> households</div>
       </div>
       <div class="bar"><i id="barfill"></i></div>
     </div>
@@ -322,6 +322,7 @@
 
 <script>
 const BF = 378;
+const BBQ = 100;
 const KEY = "borghamn_v1";
 const ADMIN_SECRET = 'borghamn26';
 const GH_API = 'https://api.github.com/repos/fredespi/borghamn-2026/contents/paid.json';
@@ -358,7 +359,8 @@ const households = [
 households.forEach(h=>{
   h.roomTotal = h.rooms.reduce((s,r)=>s+roomPrice[r],0);
   h.bfTotal = h.people*BF;
-  h.total = h.roomTotal + h.bfTotal;
+  h.bbqTotal = h.people*BBQ;
+  h.total = h.roomTotal + h.bfTotal + h.bbqTotal;
   h.paid = false; // set by loadPaidState after GitHub fetch
 });
 const fmt = n => n.toLocaleString("sv-SE");
@@ -406,7 +408,8 @@ function roomLabel(h){
 }
 function detailHTML(h){
   let rows = h.rooms.map(r=>`<div><span class="muted">Room ${r} · ${roomMeta[r].t}</span><span>${fmt(roomPrice[r])} kr</span></div>`).join("");
-  rows += `<div><span class="muted">Breakfast · ${h.people} × 378 kr</span><span>${fmt(h.bfTotal)} kr</span></div>`;
+  rows += `<div><span class="muted">Breakfast · ${h.people} × ${BF} kr</span><span>${fmt(h.bfTotal)} kr</span></div>`;
+  rows += `<div><span class="muted">BBQ dinner · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
   rows += `<div><span>Total</span><span><b>${fmt(h.total)} kr</b></span></div>`;
   rows += `<div class="ppl">${h.people} ${h.people===1?"person":"people"}${h.note? " · "+h.note:""}</div>`;
   return rows;
@@ -485,6 +488,7 @@ function updateProgress(){
   const collected=owing.filter(h=>h.paid).reduce((s,h)=>s+h.total,0);
   const goal=owing.reduce((s,h)=>s+h.total,0);
   document.getElementById("collected").textContent=fmt(collected);
+  document.getElementById("goal").textContent=fmt(goal);
   document.getElementById("remaining").textContent=fmt(goal-collected);
   document.getElementById("paidcount").textContent=`${owing.filter(h=>h.paid).length} of ${owing.length}`;
   document.getElementById("barfill").style.width=(collected/goal*100)+"%";
