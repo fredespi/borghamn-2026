@@ -219,7 +219,7 @@
   <section id="settle">
     <div class="sec-head">
       <h2>Settle up</h2>
-      <span class="note">Tap any household to see the full breakdown · mark yours paid once you've Swished</span>
+      <span class="note">Tap any household to see the full breakdown</span>
     </div>
 
     <div class="collect-card">
@@ -231,12 +231,6 @@
     </div>
 
     <div class="households" id="owing"></div>
-
-    <div class="sec-head" style="margin-top:34px">
-      <h2 style="font-size:1.3rem">On us <span style="color:var(--rose)">♥</span></h2>
-      <span class="note">Giedre &amp; Fredrik are covering these — nothing to collect</span>
-    </div>
-    <div class="households" id="covered"></div>
   </section>
 
   <!-- ROOMS -->
@@ -381,10 +375,11 @@ function detailHTML(h){
 }
 
 function renderHouseholds(){
-  const owing = households.filter(h=>h.self);
+  const paying = households.filter(h=>h.self);
   const covered = households.filter(h=>!h.self);
-  document.getElementById("owing").innerHTML = owing.map(h=>`
-    <div class="hh ${h.paid?'paid':''}" data-id="${h.id}">
+  const all = [...paying, ...covered];
+  document.getElementById("owing").innerHTML = all.map(h=>`
+    <div class="hh ${h.self&&h.paid?'paid':''}" data-id="${h.id}">
       <div class="hh-row" onclick="toggleOpen('${h.id}',event)">
         <div>
           <div class="hh-name"><span class="chev">▶</span>${h.name}</div>
@@ -392,21 +387,12 @@ function renderHouseholds(){
         </div>
         <div class="hh-side" style="display:contents">
           <div class="hh-amt">${fmt(h.total)} <span class="kr">kr</span></div>
-          ${isAdmin
-            ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>`
-            : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ Paid':'Pending'}</span>`}
+          ${h.self
+            ? (isAdmin
+                ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>`
+                : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ Paid':'Pending'}</span>`)
+            : ''}
         </div>
-      </div>
-      <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
-    </div>`).join("");
-  document.getElementById("covered").innerHTML = covered.map(h=>`
-    <div class="hh" data-id="${h.id}">
-      <div class="hh-row" onclick="toggleOpen('${h.id}',event)">
-        <div>
-          <div class="hh-name"><span class="chev">▶</span>${h.name}</div>
-          <div class="hh-for">${roomLabel(h)}${h.note? " · "+h.note:""}</div>
-        </div>
-        <span class="tag onus">On us ♥</span>
       </div>
       <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
     </div>`).join("");
@@ -538,6 +524,8 @@ if (isAdmin) {
     document.getElementById('admin-setup').style.display = 'none';
     document.getElementById('admin-ready').style.display = '';
   }
+} else {
+  document.getElementById('message').style.display = 'none';
 }
 loadPaidState();
 renderMessage();
