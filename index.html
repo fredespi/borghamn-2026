@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borghamn · Familjehelg vid Vättern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --water-deep:#0c2531;        /* deep Vättern at dusk   */
+    --water:#123243;             /* panels                 */
+    --water-2:#173e52;           /* raised panels          */
+    --limestone:#ece4d4;         /* Omberg limestone text  */
+    --limestone-dim:#a9b6bd;     /* muted text             */
+    --lamp:#e8a23d;              /* lit cabin window       */
+    --lamp-soft:#f2c071;
+    --pine:#7fa389;              /* paid / settled         */
+    --rose:#d98b8b;              /* "on us" hearts         */
+    --line:rgba(236,228,212,.12);
+    --line-strong:rgba(236,228,212,.22);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 520px at 75% -8%, rgba(232,162,61,.16), transparent 60%),
+      linear-gradient(180deg,#0a1f2a 0%, var(--water-deep) 34%, #0a1d27 100%);
+    color:var(--limestone);
+    font-family:"Inter",system-ui,sans-serif;
+    line-height:1.55;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px 80px}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:64px 0 30px;position:relative}
+  .eyebrow{font-family:"Space Grotesk",monospace;font-size:.78rem;letter-spacing:.32em;
+    text-transform:uppercase;color:var(--lamp-soft);margin-bottom:18px}
+  h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(3rem,9vw,5.6rem);
+    line-height:.96;letter-spacing:-.02em}
+  h1 em{font-style:italic;color:var(--lamp-soft)}
+  .sub{font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.1rem,2.6vw,1.5rem);
+    color:var(--limestone-dim);margin-top:14px;font-weight:400}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:26px;font-family:"Space Grotesk",monospace;
+    font-size:.84rem;color:var(--limestone-dim)}
+  .meta span{border:1px solid var(--line);padding:7px 13px;border-radius:999px;
+    background:rgba(255,255,255,.015)}
+  .meta b{color:var(--limestone);font-weight:600}
+
+  /* ---------- stat band ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:40px 0 8px;
+    background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .stat{background:var(--water);padding:20px 18px}
+  .stat .n{font-family:"Fraunces",serif;font-size:1.9rem;font-weight:500;letter-spacing:-.01em}
+  .stat .l{font-family:"Space Grotesk",monospace;font-size:.7rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--limestone-dim);margin-top:4px}
+  .stat .n .kr{font-size:1rem;color:var(--limestone-dim);font-family:"Space Grotesk",monospace}
+
+  /* ---------- section ---------- */
+  section{margin-top:54px}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+    border-bottom:1px solid var(--line-strong);padding-bottom:12px;margin-bottom:22px;flex-wrap:wrap}
+  .sec-head h2{font-family:"Fraunces",serif;font-weight:500;font-size:1.7rem;letter-spacing:-.01em}
+  .sec-head .note{font-size:.85rem;color:var(--limestone-dim)}
+
+  /* ---------- progress ---------- */
+  .collect-card{background:var(--water);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 22px 24px;margin-bottom:24px}
+  .collect-top{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+  .collect-top .big{font-family:"Fraunces",serif;font-size:2rem;font-weight:500}
+  .collect-top .big small{font-family:"Space Grotesk",monospace;font-size:.85rem;color:var(--limestone-dim);font-weight:400}
+  .collect-sub{font-family:"Space Grotesk",monospace;font-size:.8rem;color:var(--limestone-dim);text-align:right}
+  .bar{height:11px;border-radius:999px;background:rgba(255,255,255,.06);margin-top:16px;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,var(--pine),#9cc0a6);transition:width .6s cubic-bezier(.2,.7,.2,1)}
+
+  /* ---------- household rows ---------- */
+  .households{display:flex;flex-direction:column;gap:10px}
+  .hh{background:var(--water);border:1px solid var(--line);border-radius:var(--radius);
+    transition:border-color .2s,background .2s}
+  .hh:hover{border-color:var(--line-strong)}
+  .hh-row{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;
+    padding:16px 18px;cursor:pointer}
+  .hh-name{font-weight:600;font-size:1.02rem;display:flex;align-items:center;gap:10px}
+  .hh-name .chev{color:var(--limestone-dim);transition:transform .25s;font-size:.8rem}
+  .hh.open .chev{transform:rotate(90deg)}
+  .hh-for{font-family:"Space Grotesk",monospace;font-size:.78rem;color:var(--limestone-dim);
+    margin-top:3px;font-weight:400}
+  .hh-amt{font-family:"Fraunces",serif;font-size:1.3rem;font-weight:500;white-space:nowrap}
+  .hh-amt .kr{font-size:.8rem;color:var(--limestone-dim);font-family:"Space Grotesk",monospace}
+
+  .tag{font-family:"Space Grotesk",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;white-space:nowrap;font-weight:600}
+  .tag.onus{background:rgba(217,139,139,.14);color:var(--rose);border:1px solid rgba(217,139,139,.3)}
+  .btn-paid{font-family:"Space Grotesk",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);background:transparent;
+    color:var(--limestone-dim);cursor:pointer;font-weight:600;transition:all .18s}
+  .btn-paid:hover{border-color:var(--pine);color:var(--pine)}
+  .hh.paid{background:linear-gradient(180deg,rgba(127,163,137,.12),var(--water))}
+  .hh.paid .btn-paid{background:var(--pine);border-color:var(--pine);color:#0c2531}
+  .hh.paid .hh-amt{color:var(--limestone-dim)}
+  .hh.paid .hh-amt .kr{text-decoration:none}
+
+  .hh-detail{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .hh-detail .inner{padding:0 18px 18px;border-top:1px solid var(--line);margin-top:-2px}
+  .hh-detail .inner > div{display:flex;justify-content:space-between;padding:9px 0;
+    font-size:.9rem;border-bottom:1px solid var(--line)}
+  .hh-detail .inner > div:last-child{border-bottom:0}
+  .hh-detail .muted{color:var(--limestone-dim)}
+  .hh-detail .ppl{font-family:"Space Grotesk",monospace;font-size:.82rem;color:var(--limestone-dim);
+    padding-top:12px}
+
+  /* ---------- rooms / windows ---------- */
+  .windows{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .win{position:relative;background:var(--water);border:1px solid var(--line);border-radius:12px;
+    padding:15px 15px 14px;min-height:118px;overflow:hidden;cursor:pointer;transition:transform .18s,border-color .2s}
+  .win:hover{transform:translateY(-2px);border-color:var(--line-strong)}
+  .win::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .4s;
+    background:radial-gradient(120px 90px at 80% 0%,rgba(232,162,61,.28),transparent 70%)}
+  .win.lit::before{opacity:1}
+  .win.settled::before{background:radial-gradient(120px 90px at 80% 0%,rgba(127,163,137,.3),transparent 70%);opacity:1}
+  .win .rid{font-family:"Space Grotesk",monospace;font-weight:700;font-size:1.05rem;letter-spacing:.02em}
+  .win .rtype{font-size:.72rem;color:var(--limestone-dim);margin-top:2px;line-height:1.3}
+  .win .rwho{font-size:.82rem;margin-top:10px;position:relative}
+  .win .badges{position:absolute;top:13px;right:13px;display:flex;gap:5px}
+  .badge{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:.7rem;
+    background:rgba(255,255,255,.05);border:1px solid var(--line)}
+  .badge.dog{background:rgba(217,139,139,.16);border-color:rgba(217,139,139,.3)}
+  .badge.suite{background:rgba(232,162,61,.16);border-color:rgba(232,162,61,.3)}
+  .win .status{font-family:"Space Grotesk",monospace;font-size:.64rem;letter-spacing:.1em;
+    text-transform:uppercase;margin-top:9px;color:var(--limestone-dim)}
+  .win.lit .status{color:var(--lamp-soft)}
+  .win.settled .status{color:var(--pine)}
+
+  /* ---------- message / swish ---------- */
+  .panel{background:var(--water);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+  .field label{font-family:"Space Grotesk",monospace;font-size:.72rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--limestone-dim)}
+  .field input{background:var(--water-deep);border:1px solid var(--line-strong);border-radius:10px;
+    padding:12px 14px;color:var(--limestone);font-family:"Space Grotesk",monospace;font-size:.95rem}
+  .field input:focus{outline:none;border-color:var(--lamp)}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .lang{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden}
+  .lang button{background:transparent;border:0;color:var(--limestone-dim);padding:9px 16px;cursor:pointer;
+    font-family:"Space Grotesk",monospace;font-size:.78rem;font-weight:600;letter-spacing:.05em}
+  .lang button.on{background:var(--lamp);color:#0c2531}
+  .copy{background:var(--lamp);color:#0c2531;border:0;border-radius:999px;padding:12px 22px;cursor:pointer;
+    font-family:"Space Grotesk",monospace;font-weight:700;font-size:.82rem;letter-spacing:.04em;transition:transform .15s,background .15s}
+  .copy:hover{background:var(--lamp-soft);transform:translateY(-1px)}
+  .copy.done{background:var(--pine)}
+  .preview{margin-top:18px;background:var(--water-deep);border:1px solid var(--line);border-radius:12px;
+    padding:18px;white-space:pre-wrap;font-size:.9rem;line-height:1.6;color:var(--limestone-dim);max-height:340px;overflow:auto}
+
+  /* ---------- practical ---------- */
+  .practical{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .practical > div{background:var(--water);padding:18px}
+  .practical h3{font-family:"Space Grotesk",monospace;font-size:.72rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--lamp-soft);margin-bottom:8px}
+  .practical p{font-size:.92rem;color:var(--limestone-dim)}
+
+  footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);
+    font-family:"Space Grotesk",monospace;font-size:.76rem;color:var(--limestone-dim);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:640px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .hh-row{grid-template-columns:1fr auto}
+    .hh-row .hh-side{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;
+      padding-top:4px;border-top:1px solid var(--line);margin-top:4px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Borghamn · Vättern · 2026</div>
+    <h1>A weekend at <em>Borghamn</em></h1>
+    <p class="sub">The whole family, the whole Kommendanten — two nights by the lake.</p>
+    <div class="meta">
+      <span><b>Fri 28</b> → <b>Sun 30 Aug</b></span>
+      <span>2 nights</span>
+      <span>Dinner <b>Fri 19:00</b></span>
+      <span>Breakfast both mornings</span>
+      <span>25 guests · 4 dogs</span>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n">11</div><div class="l">Rooms</div></div>
+    <div class="stat"><div class="n">38,308 <span class="kr">kr</span></div><div class="l">Booking total*</div></div>
+    <div class="stat"><div class="n">21,412 <span class="kr">kr</span></div><div class="l">You collect</div></div>
+    <div class="stat"><div class="n">16,518 <span class="kr">kr</span></div><div class="l">Your own tab</div></div>
+  </div>
+  <p style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*excludes dinner — priced about a week ahead</p>
+
+  <!-- SETTLE UP -->
+  <section id="settle">
+    <div class="sec-head">
+      <h2>Settle up</h2>
+      <span class="note">Tap a household for the breakdown · tap <b>Paid</b> once they've Swished</span>
+    </div>
+
+    <div class="collect-card">
+      <div class="collect-top">
+        <div class="big"><span id="collected">0</span> <small>/ 21,412 kr collected</small></div>
+        <div class="collect-sub"><span id="remaining">21,412</span> kr still out<br><span id="paidcount">0 of 5</span> households</div>
+      </div>
+      <div class="bar"><i id="barfill"></i></div>
+    </div>
+
+    <div class="households" id="owing"></div>
+
+    <div class="sec-head" style="margin-top:34px">
+      <h2 style="font-size:1.3rem">On us <span style="color:var(--rose)">♥</span></h2>
+      <span class="note">Giedre &amp; Fredrik are covering these — nothing to collect</span>
+    </div>
+    <div class="households" id="covered"></div>
+  </section>
+
+  <!-- ROOMS -->
+  <section id="rooms">
+    <div class="sec-head">
+      <h2>The rooms</h2>
+      <span class="note">Kommendanten K1–K10 · Lillstugan · windows lit by status</span>
+    </div>
+    <div class="windows" id="windows"></div>
+  </section>
+
+  <!-- MESSAGE -->
+  <section id="message">
+    <div class="sec-head"><h2>The message</h2><span class="note">Fill in your details, then copy</span></div>
+    <div class="panel">
+      <div class="field">
+        <label for="swish">Your Swish number</label>
+        <input id="swish" placeholder="07X XXX XX XX" value="">
+      </div>
+      <div class="field">
+        <label for="due">Pay by</label>
+        <input id="due" placeholder="e.g. 15 July" value="">
+      </div>
+      <div class="controls">
+        <div class="lang">
+          <button id="enbtn" class="on" onclick="setLang('en')">English</button>
+          <button id="svbtn" onclick="setLang('sv')">Svenska</button>
+        </div>
+        <button class="copy" id="copybtn" onclick="copyMsg()">Copy message</button>
+      </div>
+      <div class="preview" id="preview"></div>
+    </div>
+  </section>
+
+  <!-- PRACTICAL -->
+  <section id="practical">
+    <div class="sec-head"><h2>Good to know</h2></div>
+    <div class="practical">
+      <div><h3>Arrival</h3><p>Check-in 15:00–18:00 Friday. Check-out by 12:00 Sunday.</p></div>
+      <div><h3>Keycards</h3><p>Room doors lock automatically — carry your card at all times, even to the bathroom at night.</p></div>
+      <div><h3>Dinner</h3><p>Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.</p></div>
+      <div><h3>Dogs</h3><p>Allowed only in K10 and Lillstugan. Jan &amp; Ingalill's dog in K10; our two in Lillstugan.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Borghamn · Booking #40148</span>
+    <span>Borghamns v 1, 592 93 Borghamn · 0143-10999</span>
+  </footer>
+</div>
+
+<script>
+const BF = 378; // breakfast per person, 2 mornings
+// guarded localStorage: persists when hosted, no-ops safely in preview
+const KEY="borghamn_v1"; let mem={};
+const store={
+  load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return mem; } },
+  save(o){ mem=o; try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+};
+const saved=store.load();
+const roomPrice = {K1:1760,K2:2940,K3:1760,K4:1760,K5:1760,K6:1760,K7:2940,K8:4400,K9:4400,K10:3500,Lillstugan:1500};
+const roomMeta = {
+  K1:{t:"2-bed · shared bath",beds:2}, K2:{t:"4-bed · shared bath",beds:4},
+  K3:{t:"2-bed · shared bath",beds:2}, K4:{t:"2-bed · shared bath",beds:2},
+  K5:{t:"2-bed · shared bath",beds:2}, K6:{t:"2-bed · shared bath",beds:2},
+  K7:{t:"4-bed · shared bath",beds:4}, K8:{t:"Junior suite · sauna",beds:2,suite:true},
+  K9:{t:"Junior suite · lake view",beds:2,suite:true}, K10:{t:"4-bed ensuite",beds:4,dog:true},
+  Lillstugan:{t:"Cottage · 2 singles",beds:2,dog:true}
+};
+const households = [
+  {id:"steffi", name:"Steffi & Isa",            rooms:["K1"], people:2, self:true},
+  {id:"parents",name:"Steffi's parents",        rooms:["K3"], people:2, self:true},
+  {id:"andy",   name:"Andy, Mia, Livia & Elis", rooms:["K2"], people:4, self:true},
+  {id:"hanna",  name:"Hanna & Nick",            rooms:["K8","K5"], people:4, self:true, note:"includes Benji & Vilmer (K5)"},
+  {id:"jan",    name:"Jan & Ingalill",          rooms:["K10"], people:2, self:true, note:"+ dog"},
+  {id:"gf",     name:"Giedre & Fredrik",        rooms:["K9"], people:2, self:false},
+  {id:"zygge",  name:"Zygge & Maria",           rooms:["K6"], people:2, self:false},
+  {id:"viggo",  name:"Viggo & Bianca",          rooms:["K4"], people:2, self:false},
+  {id:"k7",     name:"Emilia, Nadine & Leona",  rooms:["K7"], people:3, self:false},
+  {id:"lill",   name:"Babite & Agne",           rooms:["Lillstugan"], people:2, self:false, note:"+ our 2 dogs"},
+];
+households.forEach(h=>{
+  h.roomTotal = h.rooms.reduce((s,r)=>s+roomPrice[r],0);
+  h.bfTotal = h.people*BF;
+  h.total = h.roomTotal + h.bfTotal;
+  h.paid = !!(saved.paid && saved.paid[h.id]);
+});
+const fmt = n => n.toLocaleString("sv-SE");
+
+function roomLabel(h){
+  return h.rooms.map(r=> r==="Lillstugan" ? "Lillstugan" : r).join(" + ");
+}
+function detailHTML(h){
+  let rows = h.rooms.map(r=>`<div><span class="muted">Room ${r} · ${roomMeta[r].t}</span><span>${fmt(roomPrice[r])} kr</span></div>`).join("");
+  rows += `<div><span class="muted">Breakfast · ${h.people} × 378 kr</span><span>${fmt(h.bfTotal)} kr</span></div>`;
+  rows += `<div><span>Total</span><span><b>${fmt(h.total)} kr</b></span></div>`;
+  rows += `<div class="ppl">${h.people} ${h.people===1?"person":"people"}${h.note? " · "+h.note:""}</div>`;
+  return rows;
+}
+
+function renderHouseholds(){
+  const owing = households.filter(h=>h.self);
+  const covered = households.filter(h=>!h.self);
+  document.getElementById("owing").innerHTML = owing.map(h=>`
+    <div class="hh ${h.paid?'paid':''}" data-id="${h.id}">
+      <div class="hh-row" onclick="toggleOpen('${h.id}',event)">
+        <div>
+          <div class="hh-name"><span class="chev">▶</span>${h.name}</div>
+          <div class="hh-for">${roomLabel(h)}${h.note? " · "+h.note:""}</div>
+        </div>
+        <div class="hh-side" style="display:contents">
+          <div class="hh-amt">${fmt(h.total)} <span class="kr">kr</span></div>
+          <button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>
+        </div>
+      </div>
+      <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
+    </div>`).join("");
+  document.getElementById("covered").innerHTML = covered.map(h=>`
+    <div class="hh" data-id="${h.id}">
+      <div class="hh-row" onclick="toggleOpen('${h.id}',event)">
+        <div>
+          <div class="hh-name"><span class="chev">▶</span>${h.name}</div>
+          <div class="hh-for">${roomLabel(h)}${h.note? " · "+h.note:""}</div>
+        </div>
+        <span class="tag onus">On us ♥</span>
+      </div>
+      <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
+    </div>`).join("");
+  updateProgress();
+}
+function toggleOpen(id,e){
+  if(e.target.closest(".btn-paid")) return;
+  const card=document.querySelector(`.hh[data-id="${id}"]`);
+  const d=card.querySelector(".hh-detail");
+  const open=card.classList.toggle("open");
+  d.style.maxHeight = open ? d.querySelector(".inner").scrollHeight+"px" : "0";
+}
+function togglePaid(id,e){
+  e.stopPropagation();
+  const h=households.find(x=>x.id===id);
+  h.paid=!h.paid;
+  const card=document.querySelector(`.hh[data-id="${id}"]`);
+  card.classList.toggle("paid",h.paid);
+  card.querySelector(".btn-paid").textContent = h.paid?"✓ Paid":"Mark paid";
+  const s=store.load(); s.paid=s.paid||{}; s.paid[h.id]=h.paid; store.save(s);
+  updateProgress(); renderWindows();
+}
+function updateProgress(){
+  const owing=households.filter(h=>h.self);
+  const collected=owing.filter(h=>h.paid).reduce((s,h)=>s+h.total,0);
+  const goal=owing.reduce((s,h)=>s+h.total,0);
+  document.getElementById("collected").textContent=fmt(collected);
+  document.getElementById("remaining").textContent=fmt(goal-collected);
+  document.getElementById("paidcount").textContent=`${owing.filter(h=>h.paid).length} of ${owing.length}`;
+  document.getElementById("barfill").style.width=(collected/goal*100)+"%";
+}
+
+function renderWindows(){
+  const order=["K1","K2","K3","K4","K5","K6","K7","K8","K9","K10","Lillstugan"];
+  document.getElementById("windows").innerHTML = order.map(r=>{
+    const m=roomMeta[r];
+    const h=households.find(x=>x.rooms.includes(r));
+    let cls="win", status="";
+    if(h.self){ if(h.paid){cls+=" settled";status="Paid ✓";} else {status="Awaiting Swish";} }
+    else { cls+=" lit"; status="On us ♥"; }
+    const who = (r==="K5") ? "Benji & Vilmer" : (h ? h.name : "");
+    let badges="";
+    if(m.suite) badges+='<span class="badge suite" title="Ensuite suite">✦</span>';
+    if(m.dog)   badges+='<span class="badge dog" title="Dog room">🐾</span>';
+    return `<div class="${cls}" onclick="document.getElementById('settle').scrollIntoView()">
+      <div class="badges">${badges}</div>
+      <div class="rid">${r==="Lillstugan"?"Lill":r}</div>
+      <div class="rtype">${m.t}</div>
+      <div class="rwho">${who}</div>
+      <div class="status">${status}</div>
+    </div>`;
+  }).join("");
+}
+
+/* ---------- message ---------- */
+let lang="en";
+function setLang(l){lang=l;
+  document.getElementById("enbtn").classList.toggle("on",l==="en");
+  document.getElementById("svbtn").classList.toggle("on",l==="sv");
+  renderMessage();
+}
+function buildMessage(){
+  const swish=document.getElementById("swish").value.trim()||"[Swish number]";
+  const due=document.getElementById("due").value.trim()||"[date]";
+  if(lang==="en"){
+    return `Hej everyone! 🌅
+
+Our Borghamn weekend is booked — Fri 28 → Sun 30 Aug (2 nights) at Kommendanten. Dinner together Friday at 19:00, breakfast both mornings.
+
+Here's what each household owes me — room for both nights + breakfast (189 kr × 2 mornings = 378 kr per person):
+
+• Steffi & Isa — room K1 + 2 breakfasts — 2,516 kr
+• Steffi's parents — room K3 + 2 breakfasts — 2,516 kr
+• Andy, Mia, Livia & Elis — room K2 (4-bed) + 4 breakfasts — 4,452 kr
+• Hanna & Nick — rooms K8 + K5 (Benji & Vilmer) + 4 breakfasts — 7,672 kr
+• Jan & Ingalill — room K10 (4-bed ensuite, dog) + 2 breakfasts — 4,256 kr
+
+Giedre and I are covering everyone else — Zygge & Maria, Viggo & Bianca, Emilia, Nadine & Leona, and Babite & Agne — so nothing to sort, just turn up! ❤️
+
+Dinner isn't priced yet (menu comes ~a week ahead) — I'll send everyone's share for that separately.
+
+Please Swish to ${swish} by ${due}. Tack! 🙏
+
+(On arrival: room doors lock automatically, so always carry your keycard. Check-in 15:00–18:00, check-out by 12:00 Sunday.)`;
+  }
+  return `Hej allihopa! 🌅
+
+Vår Borghamn-helg är bokad — fre 28 → sön 30 aug (2 nätter) på Kommendanten. Gemensam middag på fredag kl 19:00, frukost båda morgnarna.
+
+Här är vad varje hushåll ska betala till mig — rum för båda nätterna + frukost (189 kr × 2 morgnar = 378 kr per person):
+
+• Steffi & Isa — rum K1 + 2 frukostar — 2 516 kr
+• Steffis föräldrar — rum K3 + 2 frukostar — 2 516 kr
+• Andy, Mia, Livia & Elis — rum K2 (4-bädds) + 4 frukostar — 4 452 kr
+• Hanna & Nick — rum K8 + K5 (Benji & Vilmer) + 4 frukostar — 7 672 kr
+• Jan & Ingalill — rum K10 (4-bädds eget badrum, hund) + 2 frukostar — 4 256 kr
+
+Giedre och jag tar resten — Zygge & Maria, Viggo & Bianca, Emilia, Nadine & Leona, samt Babite & Agne — så ni behöver inte tänka på något, kom bara! ❤️
+
+Middagen är inte prissatt än (menyn kommer ca en vecka innan) — jag skickar allas del för den separat.
+
+Swisha till ${swish} senast ${due}. Tack! 🙏
+
+(Vid ankomst: rumsdörrarna låses automatiskt, så ha alltid nyckelkortet med dig. Incheckning 15:00–18:00, utcheckning senast 12:00 på söndag.)`;
+}
+function renderMessage(){document.getElementById("preview").textContent=buildMessage();}
+function copyMsg(){
+  navigator.clipboard.writeText(buildMessage()).then(()=>{
+    const b=document.getElementById("copybtn");
+    b.textContent="Copied ✓"; b.classList.add("done");
+    setTimeout(()=>{b.textContent="Copy message";b.classList.remove("done");},1800);
+  });
+}
+(function(){ if(saved.swish) document.getElementById("swish").value=saved.swish;
+  if(saved.due) document.getElementById("due").value=saved.due; })();
+function persistFields(){ const s=store.load(); s.swish=document.getElementById("swish").value; s.due=document.getElementById("due").value; store.save(s); }
+document.getElementById("swish").addEventListener("input",()=>{renderMessage();persistFields();});
+document.getElementById("due").addEventListener("input",()=>{renderMessage();persistFields();});
+
+renderHouseholds();
+renderWindows();
+renderMessage();
+</script>
+</body>
+</html>
