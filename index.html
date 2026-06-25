@@ -327,6 +327,7 @@
   <footer>
     <span>Borghamn · Booking #40148</span>
     <span>Borghamns v 1, 592 93 Borghamn · 0143-10999</span>
+    <span id="admin-link" style="display:none"><a href="?admin=borghamn26" style="color:inherit;opacity:.4;font-size:.75rem">admin</a></span>
   </footer>
 </div>
 
@@ -608,6 +609,14 @@ if (isAdmin) {
 } else {
   document.getElementById('message').style.display = 'none';
 }
+// Triple-tap footer to reveal admin link
+let _tapCount = 0, _tapTimer;
+document.querySelector('footer').addEventListener('click', () => {
+  _tapCount++;
+  clearTimeout(_tapTimer);
+  if (_tapCount >= 3) { document.getElementById('admin-link').style.display = ''; _tapCount = 0; }
+  else { _tapTimer = setTimeout(() => { _tapCount = 0; }, 500); }
+});
 loadPaidState();
 renderMessage();
 </script>
