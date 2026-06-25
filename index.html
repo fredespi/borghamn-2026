@@ -423,7 +423,7 @@ function detailHTML(h){
   let rows = h.rooms.map(r=>`<div><span class="muted">Room ${r} · ${roomMeta[r].t} · ${NIGHTS} nights × ${fmt(roomPrice[r]/NIGHTS)} kr</span><span>${fmt(roomPrice[r])} kr</span></div>`).join("");
   rows += `<div><span class="muted">Breakfast · ${h.people} × 189 kr × 2 mornings</span><span>${fmt(h.bfTotal)} kr</span></div>`;
   rows += `<div><span class="muted">BBQ dinner · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
-  rows += `<div><span class="muted">Sauna · 1 000 kr ÷ ${households.length} households</span><span>${fmt(h.saunaShare)} kr</span></div>`;
+  rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Sauna</a> · 1 000 kr ÷ ${households.length} households</span><span>${fmt(h.saunaShare)} kr</span></div>`;
   rows += `<div><span>Total</span><span><b>${fmt(h.total)} kr</b></span></div>`;
   rows += `<div class="ppl">${h.people} ${h.people===1?"person":"people"}${h.note? " · "+h.note:""}</div>`;
   return rows;
