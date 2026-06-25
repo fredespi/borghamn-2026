@@ -233,11 +233,11 @@
 
   <div class="stats">
     <div class="stat"><div class="n">11</div><div class="l">Rooms</div></div>
-    <div class="stat"><div class="n">40,808 <span class="kr">kr</span></div><div class="l">Booking total*</div></div>
-    <div class="stat"><div class="n">22,812 <span class="kr">kr</span></div><div class="l">Guests pay</div></div>
-    <div class="stat"><div class="n">17,618 <span class="kr">kr</span></div><div class="l">G&amp;F's share</div></div>
+    <div class="stat"><div class="n">41,808 <span class="kr">kr</span></div><div class="l">Booking total*</div></div>
+    <div class="stat"><div class="n">23,312 <span class="kr">kr</span></div><div class="l">Guests pay</div></div>
+    <div class="stat"><div class="n">18,118 <span class="kr">kr</span></div><div class="l">G&amp;F's share</div></div>
   </div>
-  <p style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*incl. Saturday BBQ · excl. Friday dinner (priced ~1 week ahead)</p>
+  <p style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*incl. Saturday BBQ & sauna · excl. Friday dinner (priced ~1 week ahead)</p>
 
   <!-- SETTLE UP -->
   <section id="settle">
@@ -248,8 +248,8 @@
 
     <div class="collect-card">
       <div class="collect-top">
-        <div class="big"><span id="collected">0</span> <small>/ <span id="goal">22,812</span> kr collected</small></div>
-        <div class="collect-sub"><span id="remaining">22,812</span> kr still out<br><span id="paidcount">0 of 5</span> households</div>
+        <div class="big"><span id="collected">0</span> <small>/ <span id="goal">23,312</span> kr collected</small></div>
+        <div class="collect-sub"><span id="remaining">23,312</span> kr still out<br><span id="paidcount">0 of 5</span> households</div>
       </div>
       <div class="bar"><i id="barfill"></i></div>
     </div>
@@ -334,6 +334,7 @@
 const BF = 378;
 const BBQ = 100;
 const NIGHTS = 2;
+const SAUNA = 1000;
 const KEY = "borghamn_v1";
 const ADMIN_SECRET = 'borghamn26';
 const GH_API = 'https://api.github.com/repos/fredespi/borghamn-2026/contents/paid.json';
@@ -371,7 +372,8 @@ households.forEach(h=>{
   h.roomTotal = h.rooms.reduce((s,r)=>s+roomPrice[r],0);
   h.bfTotal = h.people*BF;
   h.bbqTotal = h.people*BBQ;
-  h.total = h.roomTotal + h.bfTotal + h.bbqTotal;
+  h.saunaShare = Math.round(SAUNA/households.length);
+  h.total = h.roomTotal + h.bfTotal + h.bbqTotal + h.saunaShare;
   h.paid = false; // set by loadPaidState after GitHub fetch
 });
 const fmt = n => n.toLocaleString("sv-SE");
@@ -421,6 +423,7 @@ function detailHTML(h){
   let rows = h.rooms.map(r=>`<div><span class="muted">Room ${r} · ${roomMeta[r].t} · ${NIGHTS} nights × ${fmt(roomPrice[r]/NIGHTS)} kr</span><span>${fmt(roomPrice[r])} kr</span></div>`).join("");
   rows += `<div><span class="muted">Breakfast · ${h.people} × 189 kr × 2 mornings</span><span>${fmt(h.bfTotal)} kr</span></div>`;
   rows += `<div><span class="muted">BBQ dinner · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
+  rows += `<div><span class="muted">Sauna · 1 000 kr ÷ ${households.length} households</span><span>${fmt(h.saunaShare)} kr</span></div>`;
   rows += `<div><span>Total</span><span><b>${fmt(h.total)} kr</b></span></div>`;
   rows += `<div class="ppl">${h.people} ${h.people===1?"person":"people"}${h.note? " · "+h.note:""}</div>`;
   return rows;
