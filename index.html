@@ -327,7 +327,6 @@
   <footer>
     <span>Borghamn · Booking #40148</span>
     <span>Borghamns v 1, 592 93 Borghamn · 0143-10999</span>
-    <span id="admin-link" style="display:none"><a href="?admin=borghamn26" style="color:inherit;opacity:.4;font-size:.75rem">admin</a></span>
   </footer>
 </div>
 
@@ -539,48 +538,36 @@ function setLang(l){lang=l;
   renderMessage();
 }
 function buildMessage(){
-  const swish=document.getElementById("swish").value.trim()||"[Swish number]";
-  const due=document.getElementById("due").value.trim()||"[date]";
+  const swish=document.getElementById("swish").value.trim()||"[Swish nummer]";
+  const due=document.getElementById("due").value.trim()||"[datum]";
   if(lang==="en"){
-    return `Hej everyone! 🌅
+    return `Hej everyone!
 
-Our Borghamn weekend is booked — Fri 28 → Sun 30 Aug (2 nights) at Kommendanten. Dinner together Friday at 19:00, breakfast both mornings.
+Our Borghamn weekend is booked — Fri 28 → Sun 30 Aug, two nights at Kommendanten by Lake Vättern.
 
-Here's what each household owes me — room for both nights + breakfast (189 kr × 2 mornings) + Saturday BBQ (100 kr/person) + sauna (100 kr/household):
+Programme:
+Friday: Check-in from 14:00 · Sauna 14–17 · Dinner together 19:00 (restaurant, pre-order required — menu coming ~a week ahead)
+Saturday: Breakfast buffet 08:30–10:00 · BBQ dinner in the evening (we cook!)
+Sunday: Breakfast buffet 08:30–10:00 · Check-out by 12:00
 
-• Steffi & Isa — room K1 + 2 breakfasts + BBQ + sauna — 2,816 kr
-• Steffi's parents — room K3 + 2 breakfasts + BBQ + sauna — 2,816 kr
-• Andy, Mia, Livia & Elis — room K2 (4-bed) + 4 breakfasts + BBQ + sauna — 4,952 kr
-• Hanna & Nick — rooms K8 + K5 (Benji & Vilmer) + 4 breakfasts + BBQ + sauna — 8,172 kr
-• Jan & Ingalill — room K10 (4-bed ensuite, dog) + 2 breakfasts + BBQ + sauna — 4,556 kr
+Room assignments, what your household owes and payment status are all on the trip page:
+https://fredespi.github.io/borghamn-2026/
 
-Giedre and I are covering everyone else — Zygge & Maria, Viggo & Bianca, Emilia, Nadine & Leona, and Babite & Agne — so nothing to sort, just turn up! ❤️
-
-Dinner isn't priced yet (menu comes ~a week ahead) — I'll send everyone's share for that separately.
-
-Please Swish to ${swish} by ${due}. Tack! 🙏
-
-(On arrival: room doors lock automatically, so always carry your keycard. Check-in 15:00–18:00, check-out by 12:00 Sunday.)`;
+Please Swish to ${swish} by ${due}. Tack!`;
   }
-  return `Hej allihopa! 🌅
+  return `Hej allihopa!
 
-Vår Borghamn-helg är bokad — fre 28 → sön 30 aug (2 nätter) på Kommendanten. Gemensam middag på fredag kl 19:00, frukost båda morgnarna.
+Vår Borghamn-helg är bokad — fre 28 → sön 30 aug, två nätter på Kommendanten vid Vättern.
 
-Här är vad varje hushåll ska betala till mig — rum för båda nätterna + frukost (189 kr × 2 morgnar) + lördag BBQ (100 kr/person) + bastu (100 kr/hushåll):
+Program:
+Fredag: Incheckning från kl 14:00 · Bastu 14–17 · Middag tillsammans kl 19:00 (restaurang, förbeställning krävs — meny kommer ca en vecka innan)
+Lördag: Frukostbuffé 08:30–10:00 · BBQ-middag på kvällen (vi lagar!)
+Söndag: Frukostbuffé 08:30–10:00 · Utcheckning senast kl 12:00
 
-• Steffi & Isa — rum K1 + 2 frukostar + BBQ + bastu — 2 816 kr
-• Steffis föräldrar — rum K3 + 2 frukostar + BBQ + bastu — 2 816 kr
-• Andy, Mia, Livia & Elis — rum K2 (4-bädds) + 4 frukostar + BBQ + bastu — 4 952 kr
-• Hanna & Nick — rum K8 + K5 (Benji & Vilmer) + 4 frukostar + BBQ + bastu — 8 172 kr
-• Jan & Ingalill — rum K10 (4-bädds eget badrum, hund) + 2 frukostar + BBQ + bastu — 4 556 kr
+Rumstilldelning, vad ditt hushåll ska betala och betalningsstatus finns på helgsidan:
+https://fredespi.github.io/borghamn-2026/
 
-Giedre och jag tar resten — Zygge & Maria, Viggo & Bianca, Emilia, Nadine & Leona, samt Babite & Agne — så ni behöver inte tänka på något, kom bara! ❤️
-
-Middagen är inte prissatt än (menyn kommer ca en vecka innan) — jag skickar allas del för den separat.
-
-Swisha till ${swish} senast ${due}. Tack! 🙏
-
-(Vid ankomst: rumsdörrarna låses automatiskt, så ha alltid nyckelkortet med dig. Incheckning 15:00–18:00, utcheckning senast 12:00 på söndag.)`;
+Swisha till ${swish} senast ${due}. Tack!`;
 }
 function renderMessage(){document.getElementById("preview").textContent=buildMessage();}
 function copyMsg(){
@@ -609,14 +596,6 @@ if (isAdmin) {
 } else {
   document.getElementById('message').style.display = 'none';
 }
-// Triple-tap footer to reveal admin link
-let _tapCount = 0, _tapTimer;
-document.querySelector('footer').addEventListener('click', () => {
-  _tapCount++;
-  clearTimeout(_tapTimer);
-  if (_tapCount >= 3) { document.getElementById('admin-link').style.display = ''; _tapCount = 0; }
-  else { _tapTimer = setTimeout(() => { _tapCount = 0; }, 500); }
-});
 loadPaidState();
 renderMessage();
 </script>
