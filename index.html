@@ -353,7 +353,7 @@ const i18n = {
     statNote: '*inkl. lör BBQ & bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)',
     settleHead: 'Gör upp', settleNote: 'Tryck på ett hushåll för att se detaljer',
     krCollected: 'kr insamlat', krOut: 'kr kvar', households: 'hushåll',
-    roomsHead: 'Rum', roomsNote: 'Kommendanten K1–K10 · Lillstugan · fönster lyser efter status',
+    roomsHead: 'Rum', roomsNote: 'Kommendanten K1–K10 · Lillstugan',
     progHead: 'Program',
     progFri: 'Fredag 28 aug', progSat: 'Lördag 29 aug', progSun: 'Söndag 30 aug',
     checkin: 'Incheckning öppnar', sauna: 'Bastu', secretEvent: 'Hemlig händelse', secretNote: 'Med <a href="https://www.instagram.com/reel/DZPmBsKJjYI/?igsh=MW9sa2I2MTNicG91cg==" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">aperitivo</a>', dinnerProg: 'Middag',
@@ -386,7 +386,7 @@ const i18n = {
     statNote: '*incl. Saturday BBQ & sauna · excl. Friday dinner (priced ~1 week ahead)',
     settleHead: 'Settle up', settleNote: 'Tap any household to see the full breakdown',
     krCollected: 'kr collected', krOut: 'kr still out', households: 'households',
-    roomsHead: 'The rooms', roomsNote: 'Kommendanten K1–K10 · Lillstugan · windows lit by status',
+    roomsHead: 'The rooms', roomsNote: 'Kommendanten K1–K10 · Lillstugan',
     progHead: 'Programme',
     progFri: 'Friday 28 Aug', progSat: 'Saturday 29 Aug', progSun: 'Sunday 30 Aug',
     checkin: 'Check-in opens', sauna: 'Sauna', secretEvent: 'Secret event', secretNote: 'With <a href="https://www.instagram.com/reel/DZPmBsKJjYI/?igsh=MW9sa2I2MTNicG91cg==" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">aperitivo</a>', dinnerProg: 'Dinner',
@@ -419,7 +419,7 @@ const i18n = {
     statNote: '*incl. zaterdag BBQ & sauna · excl. vrijdagdiner (prijs ~1 week van tevoren)',
     settleHead: 'Afrekening', settleNote: 'Tik op een huishouden voor de volledige specificatie',
     krCollected: 'kr ontvangen', krOut: 'kr nog te ontvangen', households: 'huishoudens',
-    roomsHead: 'De kamers', roomsNote: 'Kommendanten K1–K10 · Lillstugan · vensters verlicht op status',
+    roomsHead: 'De kamers', roomsNote: 'Kommendanten K1–K10 · Lillstugan',
     progHead: 'Programma',
     progFri: 'Vrijdag 28 aug', progSat: 'Zaterdag 29 aug', progSun: 'Zondag 30 aug',
     checkin: 'Inchecken vanaf', sauna: 'Sauna', secretEvent: 'Geheim evenement', secretNote: 'Met <a href="https://www.instagram.com/reel/DZPmBsKJjYI/?igsh=MW9sa2I2MTNicG91cg==" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">aperitivo</a>', dinnerProg: 'Diner',
@@ -619,8 +619,7 @@ function renderWindows(){
     else { cls+=" settled"; status=""; }
     const who = (r==="K5") ? "Benji & Vilmer" : (h ? h.name : "");
     let badges="";
-    if(m.suite) badges+='<span class="badge suite" title="Ensuite suite">✦</span>';
-    if(m.dog)   badges+='<span class="badge dog" title="Dog room">🐾</span>';
+    if(m.dog) badges+='<span class="badge dog" title="Dog room">🐾</span>';
     return `<div class="${cls}" onclick="document.getElementById('settle').scrollIntoView()">
       <div class="badges">${badges}</div>
       <div class="rid">${r}</div>
