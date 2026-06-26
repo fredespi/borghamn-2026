@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,15 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --water-deep:#0c2531;        /* deep Vättern at dusk   */
-    --water:#123243;             /* panels                 */
-    --water-2:#173e52;           /* raised panels          */
-    --limestone:#ece4d4;         /* Omberg limestone text  */
-    --limestone-dim:#a9b6bd;     /* muted text             */
-    --lamp:#e8a23d;              /* lit cabin window       */
+    --water-deep:#0c2531;
+    --water:#123243;
+    --water-2:#173e52;
+    --limestone:#ece4d4;
+    --limestone-dim:#a9b6bd;
+    --lamp:#e8a23d;
     --lamp-soft:#f2c071;
-    --pine:#7fa389;              /* paid / settled         */
-    --rose:#d98b8b;              /* "on us" hearts         */
+    --pine:#7fa389;
+    --rose:#d98b8b;
     --line:rgba(236,228,212,.12);
     --line-strong:rgba(236,228,212,.22);
     --radius:14px;
@@ -35,6 +35,13 @@
     -webkit-font-smoothing:antialiased;
   }
   .wrap{max-width:1060px;margin:0 auto;padding:0 22px 80px}
+
+  /* ---------- language selector ---------- */
+  .lang-sel{display:flex;justify-content:flex-end;gap:4px;padding:14px 0 0}
+  .lang-sel button{background:transparent;border:1px solid var(--line-strong);border-radius:8px;
+    color:var(--limestone-dim);padding:6px 12px;font-family:"Space Grotesk",monospace;
+    font-size:.72rem;letter-spacing:.1em;cursor:pointer;font-weight:600;transition:all .15s}
+  .lang-sel button.on{background:rgba(255,255,255,.08);color:var(--limestone);border-color:var(--limestone-dim)}
 
   /* ---------- hero ---------- */
   header.hero{padding:64px 0 30px;position:relative}
@@ -202,6 +209,12 @@
 <body>
 <div class="wrap">
 
+  <div class="lang-sel">
+    <button id="lang-sv" class="on" onclick="applyPageLang('sv')">SV</button>
+    <button id="lang-en" onclick="applyPageLang('en')">EN</button>
+    <button id="lang-nl" onclick="applyPageLang('nl')">NL</button>
+  </div>
+
   <div id="admin-bar" style="display:none;background:rgba(232,162,61,.18);border:2px solid rgba(232,162,61,.6);border-radius:var(--radius);padding:16px 20px;margin-bottom:28px">
     <div style="font-family:'Space Grotesk',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--lamp);margin-bottom:10px;font-weight:700">⚙ Admin mode — visible only at ?admin=borghamn26</div>
     <div id="admin-setup">
@@ -216,40 +229,40 @@
 
   <header class="hero">
     <div class="eyebrow">Borghamn · Vättern · 2026</div>
-    <h1>A weekend at <em>Borghamn</em></h1>
-    <p class="sub">The whole family, the whole Kommendanten — two nights by the lake.</p>
+    <h1 id="hero-title">En helg i <em>Borghamn</em></h1>
+    <p class="sub" id="hero-sub">Hela familjen, hela Kommendanten — två nätter vid sjön.</p>
     <div class="meta">
-      <span><b>Fri 28</b> → <b>Sun 30 Aug</b></span>
-      <span>2 nights</span>
-      <span>Dinner <b>Fri 19:00</b></span>
-      <span>Breakfast both mornings</span>
-      <span>25 guests · 3 dogs</span>
+      <span><b>28 aug</b> → <b>30 aug</b></span>
+      <span id="meta-nights">2 nätter</span>
+      <span id="meta-dinner">Middag <b>fre 19:00</b></span>
+      <span id="meta-bf">Frukost båda morgnarna</span>
+      <span id="meta-guests">25 gäster · 3 hundar</span>
     </div>
     <a class="maps-btn" href="https://www.google.com/maps/search/Borghamns+v+1,+592+93+Borghamn,+Sweden" target="_blank" rel="noopener">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      Borghamns v 1, Borghamn · Get directions
+      <span id="maps-label">Borghamns v 1, Borghamn · Vägbeskrivning</span>
     </a>
   </header>
 
   <div class="stats">
-    <div class="stat"><div class="n">11</div><div class="l">Rooms</div></div>
-    <div class="stat"><div class="n">41,808 <span class="kr">kr</span></div><div class="l">Booking total*</div></div>
-    <div class="stat"><div class="n">23,312 <span class="kr">kr</span></div><div class="l">Guests pay</div></div>
-    <div class="stat"><div class="n">18,118 <span class="kr">kr</span></div><div class="l">G&amp;F's share</div></div>
+    <div class="stat"><div class="n">11</div><div class="l" id="stat-rooms-l">Rum</div></div>
+    <div class="stat"><div class="n">41,808 <span class="kr">kr</span></div><div class="l" id="stat-total-l">Total kostnad*</div></div>
+    <div class="stat"><div class="n">23,312 <span class="kr">kr</span></div><div class="l" id="stat-guests-l">Gäster betalar</div></div>
+    <div class="stat"><div class="n">18,118 <span class="kr">kr</span></div><div class="l" id="stat-gf-l">G&amp;F:s del</div></div>
   </div>
-  <p style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*incl. Saturday BBQ & sauna · excl. Friday dinner (priced ~1 week ahead)</p>
+  <p id="stat-note" style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*inkl. lör BBQ &amp; bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)</p>
 
   <!-- SETTLE UP -->
   <section id="settle">
     <div class="sec-head">
-      <h2>Settle up</h2>
-      <span class="note">Tap any household to see the full breakdown</span>
+      <h2 id="settle-head">Gör upp</h2>
+      <span class="note" id="settle-note">Tryck på ett hushåll för att se detaljer</span>
     </div>
 
     <div class="collect-card">
       <div class="collect-top">
-        <div class="big"><span id="collected">0</span> <small>/ <span id="goal">23,312</span> kr collected</small></div>
-        <div class="collect-sub"><span id="remaining">23,312</span> kr still out<br><span id="paidcount">0 of 5</span> households</div>
+        <div class="big"><span id="collected">0</span> <small>/ <span id="goal">23,312</span> <span id="t-kr-collected">kr insamlat</span></small></div>
+        <div class="collect-sub"><span id="remaining">23,312</span> <span id="t-kr-out">kr kvar</span><br><span id="paidcount">0 av 5</span> <span id="t-households">hushåll</span></div>
       </div>
       <div class="bar"><i id="barfill"></i></div>
     </div>
@@ -260,13 +273,13 @@
   <!-- ROOMS -->
   <section id="rooms">
     <div class="sec-head">
-      <h2>The rooms</h2>
-      <span class="note">Kommendanten K1–K10 · Lillstugan · windows lit by status</span>
+      <h2 id="rooms-head">Rum</h2>
+      <span class="note" id="rooms-note">Kommendanten K1–K10 · Lillstugan · fönster lyser efter status</span>
     </div>
     <div class="windows" id="windows"></div>
   </section>
 
-  <!-- MESSAGE -->
+  <!-- SEND (admin only) -->
   <section id="message">
     <div class="sec-head"><h2>Send the announcement</h2><span class="note">For Giedre &amp; Fredrik — fill in and copy to send to guests</span></div>
     <div class="panel">
@@ -280,8 +293,9 @@
       </div>
       <div class="controls">
         <div class="lang">
-          <button id="enbtn" class="on" onclick="setLang('en')">English</button>
-          <button id="svbtn" onclick="setLang('sv')">Svenska</button>
+          <button id="svbtn" class="on" onclick="setLang('sv')">Svenska</button>
+          <button id="enbtn" onclick="setLang('en')">English</button>
+          <button id="nlbtn" onclick="setLang('nl')">Nederlands</button>
         </div>
         <button class="copy" id="copybtn" onclick="copyMsg()">Copy message</button>
       </div>
@@ -291,37 +305,14 @@
 
   <!-- PROGRAMME -->
   <section id="programme">
-    <div class="sec-head"><h2>Programme</h2></div>
-    <div class="prog">
-      <div class="prog-day">
-        <div class="prog-date">Friday 28 Aug</div>
-        <div class="prog-event"><span class="prog-time">14:00</span><span class="prog-desc">Check-in opens</span></div>
-        <div class="prog-event"><span class="prog-time">14–17</span><span class="prog-desc"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Sauna</a></span></div>
-        <div class="prog-event"><span class="prog-time">19:00</span><span class="prog-desc">Dinner<span class="prog-note">Restaurant · pre-order required · menu sent ~a week ahead</span></span></div>
-      </div>
-      <div class="prog-day">
-        <div class="prog-date">Saturday 29 Aug</div>
-        <div class="prog-event"><span class="prog-time">08:30</span><span class="prog-desc">Breakfast buffet<span class="prog-note">until 10:00</span></span></div>
-        <div class="prog-event"><span class="prog-time">Evening</span><span class="prog-desc">BBQ dinner<span class="prog-note">We cook</span></span></div>
-      </div>
-      <div class="prog-day">
-        <div class="prog-date">Sunday 30 Aug</div>
-        <div class="prog-event"><span class="prog-time">08:30</span><span class="prog-desc">Breakfast buffet<span class="prog-note">until 10:00</span></span></div>
-        <div class="prog-event"><span class="prog-time">12:00</span><span class="prog-desc">Check-out</span></div>
-      </div>
-    </div>
+    <div class="sec-head"><h2 id="prog-head">Program</h2></div>
+    <div class="prog" id="prog-content"></div>
   </section>
 
   <!-- PRACTICAL -->
   <section id="practical">
-    <div class="sec-head"><h2>Good to know</h2></div>
-    <div class="practical">
-      <div><h3>Arrival</h3><p>Check-in at 14:00 Friday. Check-out by 12:00 Sunday.</p></div>
-      <div><h3>Keycards</h3><p>Room doors lock automatically — carry your card at all times, even to the bathroom at night.</p></div>
-      <div><h3>Breakfast</h3><p>Buffet 08:30–10:00. Home-baked bread, cheese, jam, vegetables, game sausage, fruit, yoghurt, granola, eggs, juice, coffee &amp; tea.</p></div>
-      <div><h3>Dinner</h3><p>Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.</p></div>
-      <div><h3>Dogs</h3><p>Allowed only in K10 and Lillstugan. Jan &amp; Ingalill's dog in K10; our two in Lillstugan.</p></div>
-    </div>
+    <div class="sec-head"><h2 id="practical-head">Bra att veta</h2></div>
+    <div class="practical" id="practical-content"></div>
   </section>
 
   <footer>
@@ -343,10 +334,116 @@ const isAdmin = new URLSearchParams(location.search).get('admin') === ADMIN_SECR
 let ghToken = ''; try { ghToken = localStorage.getItem(TOKEN_KEY) || ''; } catch(e) {}
 let paidSha = null;
 let paidData = { paid: {} };
+let pageLang = 'sv';
+try { pageLang = localStorage.getItem('borghamn_lang') || 'sv'; } catch(e) {}
 const store = {
   load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; } },
   save(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch(e) {} }
 };
+
+/* ---------- translations ---------- */
+const i18n = {
+  sv: {
+    heroTitle: 'En helg i <em>Borghamn</em>',
+    heroSub: 'Hela familjen, hela Kommendanten — två nätter vid sjön.',
+    nights: '2 nätter',
+    dinnerMeta: 'Middag <b>fre 19:00</b>',
+    bfMeta: 'Frukost båda morgnarna',
+    guestsMeta: '25 gäster · 3 hundar',
+    mapsLabel: 'Borghamns v 1, Borghamn · Vägbeskrivning',
+    statRooms: 'Rum', statTotal: 'Total kostnad*', statGuests: 'Gäster betalar', statGF: 'G&F:s del',
+    statNote: '*inkl. lör BBQ & bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)',
+    settleHead: 'Gör upp', settleNote: 'Tryck på ett hushåll för att se detaljer',
+    krCollected: 'kr insamlat', krOut: 'kr kvar', households: 'hushåll',
+    roomsHead: 'Rum', roomsNote: 'Kommendanten K1–K10 · Lillstugan · fönster lyser efter status',
+    progHead: 'Program',
+    progFri: 'Fredag 28 aug', progSat: 'Lördag 29 aug', progSun: 'Söndag 30 aug',
+    checkin: 'Incheckning öppnar', sauna: 'Bastu', dinnerProg: 'Middag',
+    dinnerNote: 'Restaurang · förbeställning krävs · meny skickas ~en vecka i förväg',
+    bfBuf: 'Frukostbuffé', bfNote: 'till 10:00', evening: 'Kväll',
+    bbqDinner: 'BBQ-middag', bbqNote: 'Vi lagar', checkoutEv: 'Utcheckning',
+    goodHead: 'Bra att veta',
+    practicalItems: [
+      ['Ankomst', 'Incheckning kl 14:00 på fredag. Utcheckning senast kl 12:00 på söndag.'],
+      ['Nyckelkort', 'Rumsdörrarna låses automatiskt — ha alltid kortet med dig, även till badrummet på natten.'],
+      ['Frukost', 'Buffé 08:30–10:00. Hembakat bröd, ost, marmelad, grönsaker, viltkorv, frukt, yoghurt, granola, ägg, juice, kaffe &amp; te.'],
+      ['Middag', 'Fredag kl 19:00, förbeställning krävs. Menyn kommer ~en vecka i förväg; andelar skickas separat.'],
+      ['Hundar', 'Tillåtna endast i K10 och Lillstugan. Jan &amp; Ingalills hund i K10; våra två i Lillstugan.'],
+    ],
+    pending: 'Väntar', paid: 'Betalt', markPaid: 'Markera betald',
+    of: 'av', people1: 'person', peopleN: 'personer',
+    detailBf: 'Frukost', detailBbq: 'BBQ-middag', detailSauna: 'Bastu', detailTotal: 'Totalt',
+    roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar',
+    loading: 'Laddar…',
+  },
+  en: {
+    heroTitle: 'A weekend at <em>Borghamn</em>',
+    heroSub: 'The whole family, the whole Kommendanten — two nights by the lake.',
+    nights: '2 nights',
+    dinnerMeta: 'Dinner <b>Fri 19:00</b>',
+    bfMeta: 'Breakfast both mornings',
+    guestsMeta: '25 guests · 3 dogs',
+    mapsLabel: 'Borghamns v 1, Borghamn · Get directions',
+    statRooms: 'Rooms', statTotal: 'Booking total*', statGuests: 'Guests pay', statGF: "G&F's share",
+    statNote: '*incl. Saturday BBQ & sauna · excl. Friday dinner (priced ~1 week ahead)',
+    settleHead: 'Settle up', settleNote: 'Tap any household to see the full breakdown',
+    krCollected: 'kr collected', krOut: 'kr still out', households: 'households',
+    roomsHead: 'The rooms', roomsNote: 'Kommendanten K1–K10 · Lillstugan · windows lit by status',
+    progHead: 'Programme',
+    progFri: 'Friday 28 Aug', progSat: 'Saturday 29 Aug', progSun: 'Sunday 30 Aug',
+    checkin: 'Check-in opens', sauna: 'Sauna', dinnerProg: 'Dinner',
+    dinnerNote: 'Restaurant · pre-order required · menu sent ~a week ahead',
+    bfBuf: 'Breakfast buffet', bfNote: 'until 10:00', evening: 'Evening',
+    bbqDinner: 'BBQ dinner', bbqNote: 'We cook', checkoutEv: 'Check-out',
+    goodHead: 'Good to know',
+    practicalItems: [
+      ['Arrival', 'Check-in at 14:00 Friday. Check-out by 12:00 Sunday.'],
+      ['Keycards', 'Room doors lock automatically — carry your card at all times, even to the bathroom at night.'],
+      ['Breakfast', 'Buffet 08:30–10:00. Home-baked bread, cheese, jam, vegetables, game sausage, fruit, yoghurt, granola, eggs, juice, coffee &amp; tea.'],
+      ['Dinner', 'Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.'],
+      ['Dogs', "Allowed only in K10 and Lillstugan. Jan &amp; Ingalill's dog in K10; our two in Lillstugan."],
+    ],
+    pending: 'Pending', paid: 'Paid', markPaid: 'Mark paid',
+    of: 'of', people1: 'person', peopleN: 'people',
+    detailBf: 'Breakfast', detailBbq: 'BBQ dinner', detailSauna: 'Sauna', detailTotal: 'Total',
+    roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting',
+    loading: 'Loading…',
+  },
+  nl: {
+    heroTitle: 'Een weekend in <em>Borghamn</em>',
+    heroSub: 'De hele familie, het hele Kommendanten — twee nachten aan het meer.',
+    nights: '2 nachten',
+    dinnerMeta: 'Diner <b>vr 19:00</b>',
+    bfMeta: 'Ontbijt beide ochtenden',
+    guestsMeta: '25 gasten · 3 honden',
+    mapsLabel: 'Borghamns v 1, Borghamn · Routebeschrijving',
+    statRooms: 'Kamers', statTotal: 'Totale kosten*', statGuests: 'Gasten betalen', statGF: "G&F's deel",
+    statNote: '*incl. zaterdag BBQ & sauna · excl. vrijdagdiner (prijs ~1 week van tevoren)',
+    settleHead: 'Afrekening', settleNote: 'Tik op een huishouden voor de volledige specificatie',
+    krCollected: 'kr ontvangen', krOut: 'kr nog te ontvangen', households: 'huishoudens',
+    roomsHead: 'De kamers', roomsNote: 'Kommendanten K1–K10 · Lillstugan · vensters verlicht op status',
+    progHead: 'Programma',
+    progFri: 'Vrijdag 28 aug', progSat: 'Zaterdag 29 aug', progSun: 'Zondag 30 aug',
+    checkin: 'Inchecken vanaf', sauna: 'Sauna', dinnerProg: 'Diner',
+    dinnerNote: 'Restaurant · voorbestelling vereist · menu ~een week van tevoren',
+    bfBuf: 'Ontbijtbuffet', bfNote: 'tot 10:00', evening: 'Avond',
+    bbqDinner: 'BBQ-diner', bbqNote: 'Wij koken', checkoutEv: 'Uitchecken',
+    goodHead: 'Handig om te weten',
+    practicalItems: [
+      ['Aankomst', 'Inchecken om 14:00 op vrijdag. Uitchecken voor 12:00 op zondag.'],
+      ['Sleutelkaarten', 'Kamerdeuern sluiten automatisch — draag je kaart altijd bij je, ook naar het toilet \'s nachts.'],
+      ['Ontbijt', 'Buffet 08:30–10:00. Zelfgebakken brood, kaas, jam, groenten, wildworst, fruit, yoghurt, granola, eieren, sap, koffie &amp; thee.'],
+      ['Diner', 'Vrijdag 19:00, voorbestelling vereist. Menu komt ~een week van tevoren; aandelen worden apart verstuurd.'],
+      ['Honden', 'Alleen toegestaan in K10 en Lillstugan. Jan &amp; Ingalills hond in K10; onze twee in Lillstugan.'],
+    ],
+    pending: 'Openstaand', paid: 'Betaald', markPaid: 'Markeer betaald',
+    of: 'van', people1: 'persoon', peopleN: 'personen',
+    detailBf: 'Ontbijt', detailBbq: 'BBQ-diner', detailSauna: 'Sauna', detailTotal: 'Totaal',
+    roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling',
+    loading: 'Laden…',
+  }
+};
+
 const roomPrice = {K1:1760,K2:2940,K3:1760,K4:1760,K5:1760,K6:1760,K7:2940,K8:4400,K9:4400,K10:3500,Lillstugan:1500};
 const roomMeta = {
   K1:{t:"2-bed · shared bath",beds:2}, K2:{t:"4-bed · shared bath",beds:4},
@@ -374,12 +471,13 @@ households.forEach(h=>{
   h.bbqTotal = h.people*BBQ;
   h.saunaShare = Math.round(SAUNA/households.length);
   h.total = h.roomTotal + h.bfTotal + h.bbqTotal + h.saunaShare;
-  h.paid = false; // set by loadPaidState after GitHub fetch
+  h.paid = false;
 });
 const fmt = n => n.toLocaleString("sv-SE");
 
 async function loadPaidState() {
-  document.getElementById('owing').innerHTML = '<div style="color:var(--limestone-dim);font-size:.9rem;padding:16px 0">Loading…</div>';
+  const T = i18n[pageLang];
+  document.getElementById('owing').innerHTML = `<div style="color:var(--limestone-dim);font-size:.9rem;padding:16px 0">${T.loading}</div>`;
   try {
     const headers = ghToken ? { 'Authorization': `Bearer ${ghToken}` } : {};
     const res = await fetch(GH_API, { headers });
@@ -420,16 +518,18 @@ function roomLabel(h){
   return h.rooms.map(r=> r==="Lillstugan" ? "Lillstugan" : r).join(" + ");
 }
 function detailHTML(h){
+  const T = i18n[pageLang];
   let rows = h.rooms.map(r=>`<div><span class="muted">Room ${r} · ${roomMeta[r].t} · ${NIGHTS} nights × ${fmt(roomPrice[r]/NIGHTS)} kr</span><span>${fmt(roomPrice[r])} kr</span></div>`).join("");
-  rows += `<div><span class="muted">Breakfast · ${h.people} × 189 kr × 2 mornings</span><span>${fmt(h.bfTotal)} kr</span></div>`;
-  rows += `<div><span class="muted">BBQ dinner · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
-  rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Sauna</a> · 1 000 kr ÷ ${households.length} households</span><span>${fmt(h.saunaShare)} kr</span></div>`;
-  rows += `<div><span>Total</span><span><b>${fmt(h.total)} kr</b></span></div>`;
-  rows += `<div class="ppl">${h.people} ${h.people===1?"person":"people"}${h.note? " · "+h.note:""}</div>`;
+  rows += `<div><span class="muted">${T.detailBf} · ${h.people} × 189 kr × 2</span><span>${fmt(h.bfTotal)} kr</span></div>`;
+  rows += `<div><span class="muted">${T.detailBbq} · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
+  rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.detailSauna}</a> · 1 000 kr ÷ ${households.length} ${T.households}</span><span>${fmt(h.saunaShare)} kr</span></div>`;
+  rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(h.total)} kr</b></span></div>`;
+  rows += `<div class="ppl">${h.people} ${h.people===1?T.people1:T.peopleN}${h.note? " · "+h.note:""}</div>`;
   return rows;
 }
 
 function renderHouseholds(){
+  const T = i18n[pageLang];
   const paying = households.filter(h=>h.self);
   const covered = households.filter(h=>!h.self);
   const coveredTotal = covered.reduce((s,h)=>s+h.total,0);
@@ -439,8 +539,8 @@ function renderHouseholds(){
     let rows = covered.map(h=>
       `<div><span class="muted">${h.name} · ${roomLabel(h)}${h.note?' · '+h.note:''}</span><span>${fmt(h.total)} kr</span></div>`
     ).join('');
-    rows += `<div><span>Total</span><span><b>${fmt(coveredTotal)} kr</b></span></div>`;
-    rows += `<div class="ppl">${covered.reduce((s,h)=>s+h.people,0)} people · ${covered.length} rooms</div>`;
+    rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(coveredTotal)} kr</b></span></div>`;
+    rows += `<div class="ppl">${covered.reduce((s,h)=>s+h.people,0)} ${T.peopleN} · ${covered.length} ${T.roomsHead.toLowerCase()}</div>`;
     return rows;
   }
 
@@ -454,8 +554,8 @@ function renderHouseholds(){
         <div class="hh-side" style="display:contents">
           <div class="hh-amt">${fmt(h.total)} <span class="kr">kr</span></div>
           ${isAdmin
-            ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ Paid':'Mark paid'}</button>`
-            : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ Paid':'Pending'}</span>`}
+            ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ '+T.paid:T.markPaid}</button>`
+            : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ '+T.paid:T.pending}</span>`}
         </div>
       </div>
       <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
@@ -487,34 +587,37 @@ function toggleOpen(id,e){
 }
 function togglePaid(id,e){
   e.stopPropagation();
+  const T = i18n[pageLang];
   const h=households.find(x=>x.id===id);
   h.paid=!h.paid;
   const card=document.querySelector(`.hh[data-id="${id}"]`);
   card.classList.toggle("paid",h.paid);
-  card.querySelector(".btn-paid").textContent = h.paid?"✓ Paid":"Mark paid";
+  card.querySelector(".btn-paid").textContent = h.paid? "✓ "+T.paid : T.markPaid;
   if (!paidData.paid) paidData.paid = {};
   paidData.paid[h.id] = h.paid;
   savePaidState();
   updateProgress(); renderWindows();
 }
 function updateProgress(){
+  const T = i18n[pageLang];
   const owing=households.filter(h=>h.self);
   const collected=owing.filter(h=>h.paid).reduce((s,h)=>s+h.total,0);
   const goal=owing.reduce((s,h)=>s+h.total,0);
   document.getElementById("collected").textContent=fmt(collected);
   document.getElementById("goal").textContent=fmt(goal);
   document.getElementById("remaining").textContent=fmt(goal-collected);
-  document.getElementById("paidcount").textContent=`${owing.filter(h=>h.paid).length} of ${owing.length}`;
+  document.getElementById("paidcount").textContent=`${owing.filter(h=>h.paid).length} ${T.of} ${owing.length}`;
   document.getElementById("barfill").style.width=(collected/goal*100)+"%";
 }
 
 function renderWindows(){
+  const T = i18n[pageLang];
   const order=["K1","K2","K3","K4","K5","K6","K7","K8","K9","K10","Lillstugan"];
   document.getElementById("windows").innerHTML = order.map(r=>{
     const m=roomMeta[r];
     const h=households.find(x=>x.rooms.includes(r));
     let cls="win", status="";
-    if(h.self){ if(h.paid){cls+=" settled";status="Paid ✓";} else {status="Awaiting Swish";} }
+    if(h.self){ if(h.paid){cls+=" settled";status=T.roomPaid;} else {status=T.roomAwaiting;} }
     else { cls+=" settled"; status=""; }
     const who = (r==="K5") ? "Benji & Vilmer" : (h ? h.name : "");
     let badges="";
@@ -530,11 +633,72 @@ function renderWindows(){
   }).join("");
 }
 
+function renderProg(){
+  const T = i18n[pageLang];
+  document.getElementById('prog-head').textContent = T.progHead;
+  document.getElementById('prog-content').innerHTML = `
+    <div class="prog-day">
+      <div class="prog-date">${T.progFri}</div>
+      <div class="prog-event"><span class="prog-time">14:00</span><span class="prog-desc">${T.checkin}</span></div>
+      <div class="prog-event"><span class="prog-time">14–17</span><span class="prog-desc"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.sauna}</a></span></div>
+      <div class="prog-event"><span class="prog-time">19:00</span><span class="prog-desc">${T.dinnerProg}<span class="prog-note">${T.dinnerNote}</span></span></div>
+    </div>
+    <div class="prog-day">
+      <div class="prog-date">${T.progSat}</div>
+      <div class="prog-event"><span class="prog-time">08:30</span><span class="prog-desc">${T.bfBuf}<span class="prog-note">${T.bfNote}</span></span></div>
+      <div class="prog-event"><span class="prog-time">${T.evening}</span><span class="prog-desc">${T.bbqDinner}<span class="prog-note">${T.bbqNote}</span></span></div>
+    </div>
+    <div class="prog-day">
+      <div class="prog-date">${T.progSun}</div>
+      <div class="prog-event"><span class="prog-time">08:30</span><span class="prog-desc">${T.bfBuf}<span class="prog-note">${T.bfNote}</span></span></div>
+      <div class="prog-event"><span class="prog-time">12:00</span><span class="prog-desc">${T.checkoutEv}</span></div>
+    </div>`;
+}
+
+function renderPractical(){
+  const T = i18n[pageLang];
+  document.getElementById('practical-head').textContent = T.goodHead;
+  document.getElementById('practical-content').innerHTML = T.practicalItems
+    .map(([h,p])=>`<div><h3>${h}</h3><p>${p}</p></div>`).join('');
+}
+
+function applyPageLang(l){
+  pageLang = l;
+  const T = i18n[l];
+  try { localStorage.setItem('borghamn_lang', l); } catch(e){}
+  document.documentElement.lang = l;
+  document.getElementById('hero-title').innerHTML = T.heroTitle;
+  document.getElementById('hero-sub').textContent = T.heroSub;
+  document.getElementById('meta-nights').textContent = T.nights;
+  document.getElementById('meta-dinner').innerHTML = T.dinnerMeta;
+  document.getElementById('meta-bf').textContent = T.bfMeta;
+  document.getElementById('meta-guests').textContent = T.guestsMeta;
+  document.getElementById('maps-label').textContent = T.mapsLabel;
+  document.getElementById('stat-rooms-l').textContent = T.statRooms;
+  document.getElementById('stat-total-l').textContent = T.statTotal;
+  document.getElementById('stat-guests-l').textContent = T.statGuests;
+  document.getElementById('stat-gf-l').textContent = T.statGF;
+  document.getElementById('stat-note').textContent = T.statNote;
+  document.getElementById('settle-head').textContent = T.settleHead;
+  document.getElementById('settle-note').textContent = T.settleNote;
+  document.getElementById('t-kr-collected').textContent = T.krCollected;
+  document.getElementById('t-kr-out').textContent = T.krOut;
+  document.getElementById('t-households').textContent = T.households;
+  document.getElementById('rooms-head').textContent = T.roomsHead;
+  document.getElementById('rooms-note').textContent = T.roomsNote;
+  ['sv','en','nl'].forEach(x => document.getElementById('lang-'+x).classList.toggle('on', x===l));
+  renderProg();
+  renderPractical();
+  renderHouseholds();
+  updateProgress();
+}
+
 /* ---------- message ---------- */
-let lang="en";
-function setLang(l){lang=l;
-  document.getElementById("enbtn").classList.toggle("on",l==="en");
+let lang = 'sv';
+function setLang(l){ lang=l;
   document.getElementById("svbtn").classList.toggle("on",l==="sv");
+  document.getElementById("enbtn").classList.toggle("on",l==="en");
+  document.getElementById("nlbtn").classList.toggle("on",l==="nl");
   renderMessage();
 }
 function buildMessage(){
@@ -554,6 +718,21 @@ Room assignments, what your household owes and payment status are all on the tri
 https://fredespi.github.io/borghamn-2026/
 
 Please Swish to ${swish} by ${due}. Tack!`;
+  }
+  if(lang==="nl"){
+    return `Hoi allemaal!
+
+Ons Borghamn-weekend is geboekt — vr 28 → zo 30 aug, twee nachten in Kommendanten aan het Vätternmeer.
+
+Programma:
+Vrijdag: Inchecken vanaf 14:00 · Sauna 14–17 · Gezamenlijk diner 19:00 (restaurant, voorbestelling vereist — menu komt ~een week van tevoren)
+Zaterdag: Ontbijtbuffet 08:30–10:00 · BBQ-diner 's avonds (wij koken!)
+Zondag: Ontbijtbuffet 08:30–10:00 · Uitchecken voor 12:00
+
+Kamerindelingen, wat jouw huishouden verschuldigd is en de betalingsstatus staan op de weekendpagina:
+https://fredespi.github.io/borghamn-2026/
+
+Swish naar ${swish} vóór ${due}. Dank je!`;
   }
   return `Hej allihopa!
 
@@ -596,6 +775,7 @@ if (isAdmin) {
 } else {
   document.getElementById('message').style.display = 'none';
 }
+applyPageLang(pageLang);
 loadPaidState();
 renderMessage();
 </script>
