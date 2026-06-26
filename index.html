@@ -358,7 +358,7 @@ const i18n = {
     roomsHead: 'Rum', roomsNote: 'Kommendanten K1–K10 · Lillstugan · fönster lyser efter status',
     progHead: 'Program',
     progFri: 'Fredag 28 aug', progSat: 'Lördag 29 aug', progSun: 'Söndag 30 aug',
-    checkin: 'Incheckning öppnar', sauna: 'Bastu', dinnerProg: 'Middag',
+    checkin: 'Incheckning öppnar', sauna: 'Bastu', secretEvent: 'Hemlig händelse', secretNote: 'Med aperitivo', dinnerProg: 'Middag',
     dinnerNote: 'Restaurang · förbeställning krävs · meny skickas ~en vecka i förväg',
     bfBuf: 'Frukostbuffé', bfNote: 'till 10:00', evening: 'Kväll',
     bbqDinner: 'BBQ-middag', bbqNote: 'Vi lagar', checkoutEv: 'Utcheckning',
@@ -391,7 +391,7 @@ const i18n = {
     roomsHead: 'The rooms', roomsNote: 'Kommendanten K1–K10 · Lillstugan · windows lit by status',
     progHead: 'Programme',
     progFri: 'Friday 28 Aug', progSat: 'Saturday 29 Aug', progSun: 'Sunday 30 Aug',
-    checkin: 'Check-in opens', sauna: 'Sauna', dinnerProg: 'Dinner',
+    checkin: 'Check-in opens', sauna: 'Sauna', secretEvent: 'Secret event', secretNote: 'With aperitivo', dinnerProg: 'Dinner',
     dinnerNote: 'Restaurant · pre-order required · menu sent ~a week ahead',
     bfBuf: 'Breakfast buffet', bfNote: 'until 10:00', evening: 'Evening',
     bbqDinner: 'BBQ dinner', bbqNote: 'We cook', checkoutEv: 'Check-out',
@@ -424,7 +424,7 @@ const i18n = {
     roomsHead: 'De kamers', roomsNote: 'Kommendanten K1–K10 · Lillstugan · vensters verlicht op status',
     progHead: 'Programma',
     progFri: 'Vrijdag 28 aug', progSat: 'Zaterdag 29 aug', progSun: 'Zondag 30 aug',
-    checkin: 'Inchecken vanaf', sauna: 'Sauna', dinnerProg: 'Diner',
+    checkin: 'Inchecken vanaf', sauna: 'Sauna', secretEvent: 'Geheim evenement', secretNote: 'Met aperitivo', dinnerProg: 'Diner',
     dinnerNote: 'Restaurant · voorbestelling vereist · menu ~een week van tevoren',
     bfBuf: 'Ontbijtbuffet', bfNote: 'tot 10:00', evening: 'Avond',
     bbqDinner: 'BBQ-diner', bbqNote: 'Wij koken', checkoutEv: 'Uitchecken',
@@ -641,6 +641,7 @@ function renderProg(){
       <div class="prog-date">${T.progFri}</div>
       <div class="prog-event"><span class="prog-time">14:00</span><span class="prog-desc">${T.checkin}</span></div>
       <div class="prog-event"><span class="prog-time">14–17</span><span class="prog-desc"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.sauna}</a></span></div>
+      <div class="prog-event"><span class="prog-time">17–19</span><span class="prog-desc">${T.secretEvent}<span class="prog-note">${T.secretNote}</span></span></div>
       <div class="prog-event"><span class="prog-time">19:00</span><span class="prog-desc">${T.dinnerProg}<span class="prog-note">${T.dinnerNote}</span></span></div>
     </div>
     <div class="prog-day">
