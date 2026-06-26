@@ -345,7 +345,7 @@ const store = {
 const i18n = {
   sv: {
     heroTitle: 'En helg i <em>Borghamn</em>',
-    heroSub: 'Hela familjen, hela Kommendanten — två nätter vid sjön.',
+    heroSub: 'Hela familjen, hela <a href="https://www.borghamn.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Kommendanten</a> — två nätter vid sjön.',
     nights: '2 nätter',
     dinnerMeta: 'Middag <b>fre 19:00</b>',
     bfMeta: 'Frukost båda morgnarna',
@@ -364,7 +364,7 @@ const i18n = {
     bbqDinner: 'BBQ-middag', bbqNote: 'Vi lagar', checkoutEv: 'Utcheckning',
     goodHead: 'Bra att veta',
     practicalItems: [
-      ['Ankomst', 'Incheckning kl 14:00 på fredag. Utcheckning senast kl 12:00 på söndag.'],
+      ['Ankomst', 'Incheckning kl 14:00 på fredag. Utcheckning senast kl 12:00 på söndag. Sängkläder och handdukar ingår.'],
       ['Nyckelkort', 'Rumsdörrarna låses automatiskt — ha alltid kortet med dig, även till badrummet på natten.'],
       ['Frukost', 'Buffé 08:30–10:00. Hembakat bröd, ost, marmelad, grönsaker, viltkorv, frukt, yoghurt, granola, ägg, juice, kaffe &amp; te.'],
       ['Middag', 'Fredag kl 19:00, förbeställning krävs. Menyn kommer ~en vecka i förväg; andelar skickas separat.'],
@@ -378,7 +378,7 @@ const i18n = {
   },
   en: {
     heroTitle: 'A weekend at <em>Borghamn</em>',
-    heroSub: 'The whole family, the whole Kommendanten — two nights by the lake.',
+    heroSub: 'The whole family, the whole <a href="https://www.borghamn.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Kommendanten</a> — two nights by the lake.',
     nights: '2 nights',
     dinnerMeta: 'Dinner <b>Fri 19:00</b>',
     bfMeta: 'Breakfast both mornings',
@@ -397,7 +397,7 @@ const i18n = {
     bbqDinner: 'BBQ dinner', bbqNote: 'We cook', checkoutEv: 'Check-out',
     goodHead: 'Good to know',
     practicalItems: [
-      ['Arrival', 'Check-in at 14:00 Friday. Check-out by 12:00 Sunday.'],
+      ['Arrival', 'Check-in at 14:00 Friday. Check-out by 12:00 Sunday. Bed linen and towels included.'],
       ['Keycards', 'Room doors lock automatically — carry your card at all times, even to the bathroom at night.'],
       ['Breakfast', 'Buffet 08:30–10:00. Home-baked bread, cheese, jam, vegetables, game sausage, fruit, yoghurt, granola, eggs, juice, coffee &amp; tea.'],
       ['Dinner', 'Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.'],
@@ -411,7 +411,7 @@ const i18n = {
   },
   nl: {
     heroTitle: 'Een weekend in <em>Borghamn</em>',
-    heroSub: 'De hele familie, het hele Kommendanten — twee nachten aan het meer.',
+    heroSub: 'De hele familie, het hele <a href="https://www.borghamn.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">Kommendanten</a> — twee nachten aan het meer.',
     nights: '2 nachten',
     dinnerMeta: 'Diner <b>vr 19:00</b>',
     bfMeta: 'Ontbijt beide ochtenden',
@@ -430,7 +430,7 @@ const i18n = {
     bbqDinner: 'BBQ-diner', bbqNote: 'Wij koken', checkoutEv: 'Uitchecken',
     goodHead: 'Handig om te weten',
     practicalItems: [
-      ['Aankomst', 'Inchecken om 14:00 op vrijdag. Uitchecken voor 12:00 op zondag.'],
+      ['Aankomst', 'Inchecken om 14:00 op vrijdag. Uitchecken voor 12:00 op zondag. Beddengoed en handdoeken inbegrepen.'],
       ['Sleutelkaarten', 'Kamerdeuern sluiten automatisch — draag je kaart altijd bij je, ook naar het toilet \'s nachts.'],
       ['Ontbijt', 'Buffet 08:30–10:00. Zelfgebakken brood, kaas, jam, groenten, wildworst, fruit, yoghurt, granola, eieren, sap, koffie &amp; thee.'],
       ['Diner', 'Vrijdag 19:00, voorbestelling vereist. Menu komt ~een week van tevoren; aandelen worden apart verstuurd.'],
@@ -669,7 +669,7 @@ function applyPageLang(l){
   try { localStorage.setItem('borghamn_lang', l); } catch(e){}
   document.documentElement.lang = l;
   document.getElementById('hero-title').innerHTML = T.heroTitle;
-  document.getElementById('hero-sub').textContent = T.heroSub;
+  document.getElementById('hero-sub').innerHTML = T.heroSub;
   document.getElementById('meta-nights').textContent = T.nights;
   document.getElementById('meta-dinner').innerHTML = T.dinnerMeta;
   document.getElementById('meta-bf').textContent = T.bfMeta;
