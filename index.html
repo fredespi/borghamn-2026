@@ -457,12 +457,12 @@ const households = [
   {id:"parents",name:"Steffi's parents",        rooms:["K3"], people:2, self:true},
   {id:"andy",   name:"Andy, Mia, Livia & Elis", rooms:["K2"], people:4, self:true},
   {id:"hanna",  name:"Hanna & Nick",            rooms:["K8","K5"], people:4, self:true, note:"includes Benji & Vilmer (K5)"},
-  {id:"jan",    name:"Jan & Ingalill",          rooms:["K10"], people:2, self:true, note:"+ dog"},
+  {id:"jan",    name:"Jan & Ingalill",          rooms:["K10"], people:2, self:true, note:{sv:"+ hund", en:"+ dog", nl:"+ hond"}},
   {id:"gf",     name:"Giedre & Fredrik",        rooms:["K9"], people:2, self:false},
   {id:"zygge",  name:"Zygge & Maria",           rooms:["K6"], people:2, self:false},
   {id:"viggo",  name:"Viggo & Bianca",          rooms:["K4"], people:2, self:false},
   {id:"k7",     name:"Emilia, Nadine & Leona",  rooms:["K7"], people:3, self:false},
-  {id:"lill",   name:"Babite & Agne",           rooms:["Lillstugan"], people:2, self:false, note:"+ our 2 dogs"},
+  {id:"lill",   name:"Babite & Agne",           rooms:["Lillstugan"], people:2, self:false, note:{sv:"+ våra 2 hundar", en:"+ our 2 dogs", nl:"+ onze 2 honden"}},
 ];
 households.forEach(h=>{
   h.roomTotal = h.rooms.reduce((s,r)=>s+roomPrice[r],0);
@@ -513,6 +513,7 @@ function saveToken() {
   loadPaidState();
 }
 
+function hn(h){ return h.note ? (typeof h.note === 'object' ? h.note[pageLang] : h.note) : ''; }
 function roomLabel(h){
   return h.rooms.map(r=> r==="Lillstugan" ? "Lillstugan" : r).join(" + ");
 }
@@ -523,7 +524,7 @@ function detailHTML(h){
   rows += `<div><span class="muted">${T.detailBbq} · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
   rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.detailSauna}</a> · 1 000 kr ÷ ${households.length} ${T.households}</span><span>${fmt(h.saunaShare)} kr</span></div>`;
   rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(h.total)} kr</b></span></div>`;
-  rows += `<div class="ppl">${h.people} ${h.people===1?T.people1:T.peopleN}${h.note? " · "+h.note:""}</div>`;
+  rows += `<div class="ppl">${h.people} ${h.people===1?T.people1:T.peopleN}${hn(h)? " · "+hn(h):""}</div>`;
   return rows;
 }
 
@@ -536,7 +537,7 @@ function renderHouseholds(){
 
   function coveredDetailHTML(){
     let rows = covered.map(h=>
-      `<div><span class="muted">${h.name} · ${roomLabel(h)}${h.note?' · '+h.note:''}</span><span>${fmt(h.total)} kr</span></div>`
+      `<div><span class="muted">${h.name} · ${roomLabel(h)}${hn(h)?' · '+hn(h):''}</span><span>${fmt(h.total)} kr</span></div>`
     ).join('');
     rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(coveredTotal)} kr</b></span></div>`;
     rows += `<div class="ppl">${covered.reduce((s,h)=>s+h.people,0)} ${T.peopleN} · ${covered.length} ${T.roomsHead.toLowerCase()}</div>`;
@@ -548,7 +549,7 @@ function renderHouseholds(){
       <div class="hh-row" onclick="toggleOpen('${h.id}',event)">
         <div>
           <div class="hh-name"><span class="chev">▶</span>${h.name}</div>
-          <div class="hh-for">${roomLabel(h)}${h.note?" · "+h.note:""}</div>
+          <div class="hh-for">${roomLabel(h)}${hn(h)?" · "+hn(h):""}</div>
         </div>
         <div class="hh-side" style="display:contents">
           <div class="hh-amt">${fmt(h.total)} <span class="kr">kr</span></div>
