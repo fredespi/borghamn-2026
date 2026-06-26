@@ -65,7 +65,7 @@
   .maps-btn svg{opacity:.7;flex-shrink:0}
 
   /* ---------- stat band ---------- */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:40px 0 8px;
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;margin:40px 0 8px;
     background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
   .stat{background:var(--water);padding:20px 18px}
   .stat .n{font-family:"Fraunces",serif;font-size:1.9rem;font-weight:500;letter-spacing:-.01em}
@@ -247,8 +247,6 @@
   <div class="stats">
     <div class="stat"><div class="n">11</div><div class="l" id="stat-rooms-l">Rum</div></div>
     <div class="stat"><div class="n">41,808 <span class="kr">kr</span></div><div class="l" id="stat-total-l">Total kostnad*</div></div>
-    <div class="stat"><div class="n">23,312 <span class="kr">kr</span></div><div class="l" id="stat-guests-l">Gäster betalar</div></div>
-    <div class="stat"><div class="n">18,118 <span class="kr">kr</span></div><div class="l" id="stat-gf-l">G&amp;F:s del</div></div>
   </div>
   <p id="stat-note" style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*inkl. lör BBQ &amp; bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)</p>
 
@@ -677,8 +675,6 @@ function applyPageLang(l){
   document.getElementById('maps-label').textContent = T.mapsLabel;
   document.getElementById('stat-rooms-l').textContent = T.statRooms;
   document.getElementById('stat-total-l').textContent = T.statTotal;
-  document.getElementById('stat-guests-l').textContent = T.statGuests;
-  document.getElementById('stat-gf-l').textContent = T.statGF;
   document.getElementById('stat-note').textContent = T.statNote;
   document.getElementById('settle-head').textContent = T.settleHead;
   document.getElementById('settle-note').textContent = T.settleNote;
