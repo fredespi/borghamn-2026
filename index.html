@@ -372,7 +372,7 @@ const i18n = {
     pending: 'Väntar', paid: 'Betalt', markPaid: 'Markera betald',
     of: 'av', people1: 'person', peopleN: 'personer',
     detailBf: 'Frukost', detailBbq: 'BBQ-middag', detailSauna: 'Bastu', detailTotal: 'Totalt',
-    roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar',
+    roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar', dogLabel: 'hund',
     loading: 'Laddar…',
   },
   en: {
@@ -405,7 +405,7 @@ const i18n = {
     pending: 'Pending', paid: 'Paid', markPaid: 'Mark paid',
     of: 'of', people1: 'person', peopleN: 'people',
     detailBf: 'Breakfast', detailBbq: 'BBQ dinner', detailSauna: 'Sauna', detailTotal: 'Total',
-    roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting',
+    roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting', dogLabel: 'dog',
     loading: 'Loading…',
   },
   nl: {
@@ -438,7 +438,7 @@ const i18n = {
     pending: 'Openstaand', paid: 'Betaald', markPaid: 'Markeer betaald',
     of: 'van', people1: 'persoon', peopleN: 'personen',
     detailBf: 'Ontbijt', detailBbq: 'BBQ-diner', detailSauna: 'Sauna', detailTotal: 'Totaal',
-    roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling',
+    roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling', dogLabel: 'hond',
     loading: 'Laden…',
   }
 };
@@ -620,7 +620,7 @@ function renderWindows(){
     else { cls+=" settled"; status=""; }
     const who = (r==="K5") ? "Benji & Vilmer" : (h ? h.name : "");
     let badges="";
-    if(m.dog) badges+='<span class="badge dog">dog</span>';
+    if(m.dog) badges+='<span class="badge dog">'+T.dogLabel+'</span>';
     return `<div class="${cls}" onclick="document.getElementById('settle').scrollIntoView()">
       <div class="badges">${badges}</div>
       <div class="rid">${r}</div>
