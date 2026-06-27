@@ -141,6 +141,7 @@
   .win .rid{font-family:"Space Grotesk",monospace;font-weight:700;font-size:1.05rem;letter-spacing:.02em}
   .win .rtype{font-size:.72rem;color:var(--limestone-dim);margin-top:2px;line-height:1.3}
   .win .rprice{font-size:.78rem;color:var(--limestone);margin-top:4px;font-weight:600}
+  .win .rstay{font-size:.68rem;color:var(--limestone-dim);margin-top:1px}
   .win .rwho{font-size:.82rem;margin-top:10px;position:relative}
   .win .badges{position:absolute;top:13px;right:13px;display:flex;gap:5px}
   .badge.dog{padding:0 7px;height:22px;border-radius:999px;display:inline-flex;align-items:center;
@@ -374,7 +375,7 @@ const i18n = {
     pending: 'Väntar', paid: 'Betalt', markPaid: 'Markera betald',
     of: 'av', people1: 'person', peopleN: 'personer',
     detailBf: 'Frukost', detailBbq: 'BBQ-middag', detailSauna: 'Bastu', detailTotal: 'Totalt',
-    roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar', dogLabel: 'hund', perNight: 'kr/natt',
+    roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar', dogLabel: 'hund', perNight: 'kr/natt', stayTotal: 'kr totalt',
     loading: 'Laddar…',
   },
   en: {
@@ -408,7 +409,7 @@ const i18n = {
     pending: 'Pending', paid: 'Paid', markPaid: 'Mark paid',
     of: 'of', people1: 'person', peopleN: 'people',
     detailBf: 'Breakfast', detailBbq: 'BBQ dinner', detailSauna: 'Sauna', detailTotal: 'Total',
-    roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting', dogLabel: 'dog', perNight: 'kr/night',
+    roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting', dogLabel: 'dog', perNight: 'kr/night', stayTotal: 'kr total',
     loading: 'Loading…',
   },
   nl: {
@@ -442,7 +443,7 @@ const i18n = {
     pending: 'Openstaand', paid: 'Betaald', markPaid: 'Markeer betaald',
     of: 'van', people1: 'persoon', peopleN: 'personen',
     detailBf: 'Ontbijt', detailBbq: 'BBQ-diner', detailSauna: 'Sauna', detailTotal: 'Totaal',
-    roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling', dogLabel: 'hond', perNight: 'kr/nacht',
+    roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling', dogLabel: 'hond', perNight: 'kr/nacht', stayTotal: 'kr totaal',
     loading: 'Laden…',
   }
 };
@@ -631,6 +632,7 @@ function renderWindows(){
       <div class="rid">${r}</div>
       <div class="rtype">${m.t}</div>
       <div class="rprice">${fmt(roomPrice[r]/NIGHTS)} ${T.perNight}</div>
+      <div class="rstay">${fmt(roomPrice[r])} ${T.stayTotal}</div>
       <div class="rwho">${who}</div>
       <div class="status">${status}</div>
     </div>`;
