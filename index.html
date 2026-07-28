@@ -370,7 +370,7 @@ const i18n = {
       ['Nyckelkort', 'Rumsdörrarna låses automatiskt — ha alltid kortet med dig, även till badrummet på natten.'],
       ['Frukost', 'Buffé 08:30–10:00. Hembakat bröd, ost, marmelad, grönsaker, viltkorv, frukt, yoghurt, granola, ägg, juice, kaffe &amp; te.'],
       ['Middag', 'Fredag kl 19:00, förbeställning krävs. Menyn kommer ~en vecka i förväg; andelar skickas separat.'],
-      ['Hundar', 'Tillåtna endast i K10 och Lillstugan. Jan &amp; Ingalills hund i K10; våra två i Lillstugan.'],
+      ['Hundar', 'Tillåtna endast i K10, Lillstugan och Bykhuset (max en hund i Bykhuset). Jan &amp; Ingalills hund i K10; våra två i Lillstugan.'],
     ],
     pending: 'Väntar', paid: 'Betalt', markPaid: 'Markera betald',
     of: 'av', people1: 'person', peopleN: 'personer',
@@ -404,7 +404,7 @@ const i18n = {
       ['Keycards', 'Room doors lock automatically — carry your card at all times, even to the bathroom at night.'],
       ['Breakfast', 'Buffet 08:30–10:00. Home-baked bread, cheese, jam, vegetables, game sausage, fruit, yoghurt, granola, eggs, juice, coffee &amp; tea.'],
       ['Dinner', 'Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.'],
-      ['Dogs', "Allowed only in K10 and Lillstugan. Jan &amp; Ingalill's dog in K10; our two in Lillstugan."],
+      ['Dogs', "Allowed only in K10, Lillstugan and Bykhuset (max one dog in Bykhuset). Jan &amp; Ingalill's dog in K10; our two in Lillstugan."],
     ],
     pending: 'Pending', paid: 'Paid', markPaid: 'Mark paid',
     of: 'of', people1: 'person', peopleN: 'people',
@@ -438,7 +438,7 @@ const i18n = {
       ['Sleutelkaarten', 'Kamerdeuern sluiten automatisch — draag je kaart altijd bij je, ook naar het toilet \'s nachts.'],
       ['Ontbijt', 'Buffet 08:30–10:00. Zelfgebakken brood, kaas, jam, groenten, wildworst, fruit, yoghurt, granola, eieren, sap, koffie &amp; thee.'],
       ['Diner', 'Vrijdag 19:00, voorbestelling vereist. Menu komt ~een week van tevoren; aandelen worden apart verstuurd.'],
-      ['Honden', 'Alleen toegestaan in K10 en Lillstugan. Jan &amp; Ingalills hond in K10; onze twee in Lillstugan.'],
+      ['Honden', 'Alleen toegestaan in K10, Lillstugan en Bykhuset (max één hond in Bykhuset). Jan &amp; Ingalills hond in K10; onze twee in Lillstugan.'],
     ],
     pending: 'Openstaand', paid: 'Betaald', markPaid: 'Markeer betaald',
     of: 'van', people1: 'persoon', peopleN: 'personen',
@@ -455,7 +455,7 @@ const roomMeta = {
   K5:{t:"2-bed · shared bath",beds:2}, K6:{t:"2-bed · shared bath",beds:2},
   K7:{t:"4-bed · shared bath",beds:4}, K8:{t:"Junior suite · sauna",beds:2,suite:true},
   K9:{t:"Junior suite · lake view",beds:2,suite:true}, K10:{t:"4-bed ensuite",beds:4,dog:true},
-  Lillstugan:{t:"Cottage · 2 singles",beds:2,dog:true}, Bykhuset:{t:"Not yet booked"}
+  Lillstugan:{t:"Cottage · 2 singles",beds:2,dog:true}, Bykhuset:{t:"Not yet booked",dog:true}
 };
 const households = [
   {id:"steffi", name:"Steffi & Isa",            rooms:["K1"], people:2, self:true},
