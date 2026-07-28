@@ -248,7 +248,7 @@
   </header>
 
   <div class="stats">
-    <div class="stat"><div class="n">11</div><div class="l" id="stat-rooms-l">Rum</div></div>
+    <div class="stat"><div class="n">12</div><div class="l" id="stat-rooms-l">Rum</div></div>
     <div class="stat"><div class="n">41,808 <span class="kr">kr</span></div><div class="l" id="stat-total-l">Total kostnad*</div></div>
   </div>
   <p id="stat-note" style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*inkl. lör BBQ &amp; bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)</p>
@@ -275,7 +275,7 @@
   <section id="rooms">
     <div class="sec-head">
       <h2 id="rooms-head">Rum</h2>
-      <span class="note" id="rooms-note">Kommendanten K1–K10 · Lillstugan · fönster lyser efter status</span>
+      <span class="note" id="rooms-note">Kommendanten K1–K10 · Lillstugan · Bykhuset · fönster lyser efter status</span>
     </div>
     <div class="windows" id="windows"></div>
   </section>
@@ -356,7 +356,7 @@ const i18n = {
     statNote: '*inkl. lör BBQ & bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)',
     settleHead: 'Gör upp', settleNote: 'Tryck på ett hushåll för att se detaljer',
     krCollected: 'kr insamlat', krOut: 'kr kvar', households: 'hushåll',
-    roomsHead: 'Rum', roomsNote: 'Kommendanten K1–K10 · Lillstugan',
+    roomsHead: 'Rum', roomsNote: 'Kommendanten K1–K10 · Lillstugan · Bykhuset',
     progHead: 'Program',
     progFri: 'Fredag 28 aug', progSat: 'Lördag 29 aug', progSun: 'Söndag 30 aug',
     checkin: 'Incheckning öppnar', sauna: 'Bastu', secretEvent: 'Hemlig händelse', secretNote: 'Med <a href="https://www.instagram.com/reel/DZPmBsKJjYI/?igsh=MW9sa2I2MTNicG91cg==" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">aperitivo</a>', dinnerProg: 'Middag',
@@ -366,7 +366,7 @@ const i18n = {
     goodHead: 'Bra att veta',
     practicalItems: [
       ['Ankomst', 'Incheckning kl 14:00 på fredag. Utcheckning senast kl 12:00 på söndag. Sängkläder och handdukar ingår.'],
-      ['Rum', 'Juniorsviter K8 &amp; K9 (3 tr, 4 400 kr/rum): eget badrum &amp; infrabastu på rummet — en med utsikt över Vättern, en över Omberg.<br>K10 4-bädds (3 500 kr): eget badrum.<br>Vandrarhemsrum K2 &amp; K7 4-bädds (2 940 kr) och K1/K3–K6 2-bädds (1 760 kr/rum): delad dusch &amp; toalett i korridoren.<br>Lillstugan (1 500 kr): separat stuga.<br><em>Priser avser hela vistelsen (2 nätter).</em>'],
+      ['Rum', 'Juniorsviter K8 &amp; K9 (3 tr, 4 400 kr/rum): eget badrum &amp; infrabastu på rummet — en med utsikt över Vättern, en över Omberg.<br>K10 4-bädds (3 500 kr): eget badrum.<br>Vandrarhemsrum K2 &amp; K7 4-bädds (2 940 kr) och K1/K3–K6 2-bädds (1 760 kr/rum): delad dusch &amp; toalett i korridoren.<br>Lillstugan (1 500 kr): separat stuga.<br>Bykhuset (990 kr/natt, 1 980 kr för hela vistelsen): inte bokat ännu.<br><em>Priser avser hela vistelsen (2 nätter).</em>'],
       ['Nyckelkort', 'Rumsdörrarna låses automatiskt — ha alltid kortet med dig, även till badrummet på natten.'],
       ['Frukost', 'Buffé 08:30–10:00. Hembakat bröd, ost, marmelad, grönsaker, viltkorv, frukt, yoghurt, granola, ägg, juice, kaffe &amp; te.'],
       ['Middag', 'Fredag kl 19:00, förbeställning krävs. Menyn kommer ~en vecka i förväg; andelar skickas separat.'],
@@ -375,7 +375,7 @@ const i18n = {
     pending: 'Väntar', paid: 'Betalt', markPaid: 'Markera betald',
     of: 'av', people1: 'person', peopleN: 'personer',
     detailBf: 'Frukost', detailBbq: 'BBQ-middag', detailSauna: 'Bastu', detailTotal: 'Totalt',
-    roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar', dogLabel: 'hund', perNight: 'kr/natt', stayTotal: 'kr totalt',
+    roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar', roomAvailable: 'Ledigt', dogLabel: 'hund', perNight: 'kr/natt', stayTotal: 'kr totalt',
     loading: 'Laddar…',
   },
   en: {
@@ -390,7 +390,7 @@ const i18n = {
     statNote: '*incl. Saturday BBQ & sauna · excl. Friday dinner (priced ~1 week ahead)',
     settleHead: 'Settle up', settleNote: 'Tap any household to see the full breakdown',
     krCollected: 'kr collected', krOut: 'kr still out', households: 'households',
-    roomsHead: 'The rooms', roomsNote: 'Kommendanten K1–K10 · Lillstugan',
+    roomsHead: 'The rooms', roomsNote: 'Kommendanten K1–K10 · Lillstugan · Bykhuset',
     progHead: 'Programme',
     progFri: 'Friday 28 Aug', progSat: 'Saturday 29 Aug', progSun: 'Sunday 30 Aug',
     checkin: 'Check-in opens', sauna: 'Sauna', secretEvent: 'Secret event', secretNote: 'With <a href="https://www.instagram.com/reel/DZPmBsKJjYI/?igsh=MW9sa2I2MTNicG91cg==" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">aperitivo</a>', dinnerProg: 'Dinner',
@@ -400,7 +400,7 @@ const i18n = {
     goodHead: 'Good to know',
     practicalItems: [
       ['Arrival', 'Check-in at 14:00 Friday. Check-out by 12:00 Sunday. Bed linen and towels included.'],
-      ['Rooms', 'Junior suites K8 &amp; K9 (3rd floor, 4 400 kr/room): private bathroom &amp; in-room infrared sauna — one with views over Lake Vättern, one over Omberg.<br>K10 4-bed (3 500 kr): private bathroom.<br>Hostel rooms K2 &amp; K7 4-bed (2 940 kr) and K1/K3–K6 2-bed (1 760 kr/room): shared shower &amp; toilet in the corridor.<br>Lillstugan (1 500 kr): separate cottage.<br><em>Prices cover the full stay (2 nights).</em>'],
+      ['Rooms', 'Junior suites K8 &amp; K9 (3rd floor, 4 400 kr/room): private bathroom &amp; in-room infrared sauna — one with views over Lake Vättern, one over Omberg.<br>K10 4-bed (3 500 kr): private bathroom.<br>Hostel rooms K2 &amp; K7 4-bed (2 940 kr) and K1/K3–K6 2-bed (1 760 kr/room): shared shower &amp; toilet in the corridor.<br>Lillstugan (1 500 kr): separate cottage.<br>Bykhuset (990 kr/night, 1 980 kr for the full stay): not yet booked.<br><em>Prices cover the full stay (2 nights).</em>'],
       ['Keycards', 'Room doors lock automatically — carry your card at all times, even to the bathroom at night.'],
       ['Breakfast', 'Buffet 08:30–10:00. Home-baked bread, cheese, jam, vegetables, game sausage, fruit, yoghurt, granola, eggs, juice, coffee &amp; tea.'],
       ['Dinner', 'Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.'],
@@ -409,7 +409,7 @@ const i18n = {
     pending: 'Pending', paid: 'Paid', markPaid: 'Mark paid',
     of: 'of', people1: 'person', peopleN: 'people',
     detailBf: 'Breakfast', detailBbq: 'BBQ dinner', detailSauna: 'Sauna', detailTotal: 'Total',
-    roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting', dogLabel: 'dog', perNight: 'kr/night', stayTotal: 'kr total',
+    roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting', roomAvailable: 'Available', dogLabel: 'dog', perNight: 'kr/night', stayTotal: 'kr total',
     loading: 'Loading…',
   },
   nl: {
@@ -424,7 +424,7 @@ const i18n = {
     statNote: '*incl. zaterdag BBQ & sauna · excl. vrijdagdiner (prijs ~1 week van tevoren)',
     settleHead: 'Afrekening', settleNote: 'Tik op een huishouden voor de volledige specificatie',
     krCollected: 'kr ontvangen', krOut: 'kr nog te ontvangen', households: 'huishoudens',
-    roomsHead: 'De kamers', roomsNote: 'Kommendanten K1–K10 · Lillstugan',
+    roomsHead: 'De kamers', roomsNote: 'Kommendanten K1–K10 · Lillstugan · Bykhuset',
     progHead: 'Programma',
     progFri: 'Vrijdag 28 aug', progSat: 'Zaterdag 29 aug', progSun: 'Zondag 30 aug',
     checkin: 'Inchecken vanaf', sauna: 'Sauna', secretEvent: 'Geheim evenement', secretNote: 'Met <a href="https://www.instagram.com/reel/DZPmBsKJjYI/?igsh=MW9sa2I2MTNicG91cg==" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">aperitivo</a>', dinnerProg: 'Diner',
@@ -434,7 +434,7 @@ const i18n = {
     goodHead: 'Handig om te weten',
     practicalItems: [
       ['Aankomst', 'Inchecken om 14:00 op vrijdag. Uitchecken voor 12:00 op zondag. Beddengoed en handdoeken inbegrepen.'],
-      ['Kamers', 'Juniorsuite K8 &amp; K9 (3e verdieping, 4 400 kr/kamer): eigen badkamer &amp; infraroodsauna op de kamer — één met uitzicht over het Vätternmeer, één over Omberg.<br>K10 4-persoons (3 500 kr): eigen badkamer.<br>Hostelkamers K2 &amp; K7 4-persoons (2 940 kr) en K1/K3–K6 2-persoons (1 760 kr/kamer): gedeelde douche &amp; toilet op de gang.<br>Lillstugan (1 500 kr): apart huisje.<br><em>Prijzen zijn voor het volledige verblijf (2 nachten).</em>'],
+      ['Kamers', 'Juniorsuite K8 &amp; K9 (3e verdieping, 4 400 kr/kamer): eigen badkamer &amp; infraroodsauna op de kamer — één met uitzicht over het Vätternmeer, één over Omberg.<br>K10 4-persoons (3 500 kr): eigen badkamer.<br>Hostelkamers K2 &amp; K7 4-persoons (2 940 kr) en K1/K3–K6 2-persoons (1 760 kr/kamer): gedeelde douche &amp; toilet op de gang.<br>Lillstugan (1 500 kr): apart huisje.<br>Bykhuset (990 kr/nacht, 1 980 kr voor het hele verblijf): nog niet geboekt.<br><em>Prijzen zijn voor het volledige verblijf (2 nachten).</em>'],
       ['Sleutelkaarten', 'Kamerdeuern sluiten automatisch — draag je kaart altijd bij je, ook naar het toilet \'s nachts.'],
       ['Ontbijt', 'Buffet 08:30–10:00. Zelfgebakken brood, kaas, jam, groenten, wildworst, fruit, yoghurt, granola, eieren, sap, koffie &amp; thee.'],
       ['Diner', 'Vrijdag 19:00, voorbestelling vereist. Menu komt ~een week van tevoren; aandelen worden apart verstuurd.'],
@@ -443,19 +443,19 @@ const i18n = {
     pending: 'Openstaand', paid: 'Betaald', markPaid: 'Markeer betaald',
     of: 'van', people1: 'persoon', peopleN: 'personen',
     detailBf: 'Ontbijt', detailBbq: 'BBQ-diner', detailSauna: 'Sauna', detailTotal: 'Totaal',
-    roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling', dogLabel: 'hond', perNight: 'kr/nacht', stayTotal: 'kr totaal',
+    roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling', roomAvailable: 'Beschikbaar', dogLabel: 'hond', perNight: 'kr/nacht', stayTotal: 'kr totaal',
     loading: 'Laden…',
   }
 };
 
-const roomPrice = {K1:1760,K2:2940,K3:1760,K4:1760,K5:1760,K6:1760,K7:2940,K8:4400,K9:4400,K10:3500,Lillstugan:1500};
+const roomPrice = {K1:1760,K2:2940,K3:1760,K4:1760,K5:1760,K6:1760,K7:2940,K8:4400,K9:4400,K10:3500,Lillstugan:1500,Bykhuset:1980};
 const roomMeta = {
   K1:{t:"2-bed · shared bath",beds:2}, K2:{t:"4-bed · shared bath",beds:4},
   K3:{t:"2-bed · shared bath",beds:2}, K4:{t:"2-bed · shared bath",beds:2},
   K5:{t:"2-bed · shared bath",beds:2}, K6:{t:"2-bed · shared bath",beds:2},
   K7:{t:"4-bed · shared bath",beds:4}, K8:{t:"Junior suite · sauna",beds:2,suite:true},
   K9:{t:"Junior suite · lake view",beds:2,suite:true}, K10:{t:"4-bed ensuite",beds:4,dog:true},
-  Lillstugan:{t:"Cottage · 2 singles",beds:2,dog:true}
+  Lillstugan:{t:"Cottage · 2 singles",beds:2,dog:true}, Bykhuset:{t:"Not yet booked"}
 };
 const households = [
   {id:"steffi", name:"Steffi & Isa",            rooms:["K1"], people:2, self:true},
@@ -617,12 +617,13 @@ function updateProgress(){
 
 function renderWindows(){
   const T = i18n[pageLang];
-  const order=["K1","K2","K3","K4","K5","K6","K7","K8","K9","K10","Lillstugan"];
+  const order=["K1","K2","K3","K4","K5","K6","K7","K8","K9","K10","Lillstugan","Bykhuset"];
   document.getElementById("windows").innerHTML = order.map(r=>{
     const m=roomMeta[r];
     const h=households.find(x=>x.rooms.includes(r));
     let cls="win", status="";
-    if(h.self){ if(h.paid){cls+=" settled";status=T.roomPaid;} else {status=T.roomAwaiting;} }
+    if(!h){ status=T.roomAvailable; }
+    else if(h.self){ if(h.paid){cls+=" settled";status=T.roomPaid;} else {status=T.roomAwaiting;} }
     else { cls+=" settled"; status=""; }
     const who = (r==="K5") ? "Benji & Vilmer" : (h ? h.name : "");
     let badges="";
