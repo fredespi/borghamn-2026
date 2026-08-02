@@ -239,7 +239,7 @@
       <span id="meta-nights">2 nätter</span>
       <span id="meta-dinner">Middag <b>fre 19:00</b></span>
       <span id="meta-bf">Frukost båda morgnarna</span>
-      <span id="meta-guests">23 gäster · 3 hundar</span>
+      <span id="meta-guests"></span>
     </div>
     <a class="maps-btn" href="https://www.google.com/maps/search/Borghamns+v+1,+592+93+Borghamn,+Sweden" target="_blank" rel="noopener">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -248,8 +248,8 @@
   </header>
 
   <div class="stats">
-    <div class="stat"><div class="n">12</div><div class="l" id="stat-rooms-l">Rum</div></div>
-    <div class="stat"><div class="n">42,454 <span class="kr">kr</span></div><div class="l" id="stat-total-l">Total kostnad*</div></div>
+    <div class="stat"><div class="n" id="stat-rooms-n">–</div><div class="l" id="stat-rooms-l">Rum</div></div>
+    <div class="stat"><div class="n"><span id="stat-total-n">–</span> <span class="kr">kr</span></div><div class="l" id="stat-total-l">Total kostnad*</div></div>
   </div>
   <p id="stat-note" style="font-size:.76rem;color:var(--limestone-dim);margin-top:8px;font-family:'Space Grotesk',monospace">*inkl. lör BBQ &amp; bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)</p>
 
@@ -262,8 +262,8 @@
 
     <div class="collect-card">
       <div class="collect-top">
-        <div class="big"><span id="collected">0</span> <small>/ <span id="goal">23,312</span> <span id="t-kr-collected">kr insamlat</span></small></div>
-        <div class="collect-sub"><span id="remaining">23,312</span> <span id="t-kr-out">kr kvar</span><br><span id="paidcount">0 av 5</span> <span id="t-households">hushåll</span></div>
+        <div class="big"><span id="collected">0</span> <small>/ <span id="goal">–</span> <span id="t-kr-collected">kr insamlat</span></small></div>
+        <div class="collect-sub"><span id="remaining">–</span> <span id="t-kr-out">kr kvar</span><br><span id="paidcount"></span> <span id="t-households">hushåll</span></div>
       </div>
       <div class="bar"><i id="barfill"></i></div>
     </div>
@@ -323,10 +323,6 @@
 </div>
 
 <script>
-const BF = 378;
-const BBQ = 100;
-const NIGHTS = 2;
-const SAUNA = 1000;
 const KEY = "borghamn_v1";
 const ADMIN_SECRET = 'borghamn26';
 const GH_API = 'https://api.github.com/repos/fredespi/borghamn-2026/contents/paid.json';
@@ -350,7 +346,7 @@ const i18n = {
     nights: '2 nätter',
     dinnerMeta: 'Middag <b>fre 19:00</b>',
     bfMeta: 'Frukost båda morgnarna',
-    guestsMeta: '23 gäster · 3 hundar',
+    guestsMeta: '{guests} gäster · {dogs} hundar',
     mapsLabel: 'Borghamns v 1, Borghamn · Vägbeskrivning',
     statRooms: 'Rum', statTotal: 'Total kostnad*', statGuests: 'Gäster betalar', statGF: 'G&F:s del',
     statNote: '*inkl. lör BBQ & bastu · exkl. fredagsmiddag (prissätts ~1 vecka i förväg)',
@@ -384,7 +380,7 @@ const i18n = {
     nights: '2 nights',
     dinnerMeta: 'Dinner <b>Fri 19:00</b>',
     bfMeta: 'Breakfast both mornings',
-    guestsMeta: '23 guests · 3 dogs',
+    guestsMeta: '{guests} guests · {dogs} dogs',
     mapsLabel: 'Borghamns v 1, Borghamn · Get directions',
     statRooms: 'Rooms', statTotal: 'Booking total*', statGuests: 'Guests pay', statGF: "G&F's share",
     statNote: '*incl. Saturday BBQ & sauna · excl. Friday dinner (priced ~1 week ahead)',
@@ -418,7 +414,7 @@ const i18n = {
     nights: '2 nachten',
     dinnerMeta: 'Diner <b>vr 19:00</b>',
     bfMeta: 'Ontbijt beide ochtenden',
-    guestsMeta: '23 gasten · 3 honden',
+    guestsMeta: '{guests} gasten · {dogs} honden',
     mapsLabel: 'Borghamns v 1, Borghamn · Routebeschrijving',
     statRooms: 'Kamers', statTotal: 'Totale kosten*', statGuests: 'Gasten betalen', statGF: "G&F's deel",
     statNote: '*incl. zaterdag BBQ & sauna · excl. vrijdagdiner (prijs ~1 week van tevoren)',
@@ -448,35 +444,46 @@ const i18n = {
   }
 };
 
-const roomPrice = {K1:1760,K2:2940,K3:1760,K4:1760,K5:1760,K6:1760,K7:2940,K8:4400,K9:4400,K10:3500,Lillstugan:1500,Bykhuset:1980};
-const roomMeta = {
-  K1:{t:"2-bed · shared bath",beds:2}, K2:{t:"4-bed · shared bath",beds:4},
-  K3:{t:"2-bed · shared bath",beds:2}, K4:{t:"2-bed · shared bath",beds:2},
-  K5:{t:"2-bed · shared bath",beds:2}, K6:{t:"2-bed · shared bath",beds:2},
-  K7:{t:"4-bed · shared bath",beds:4}, K8:{t:"Junior suite · sauna",beds:2,suite:true},
-  K9:{t:"Junior suite · lake view",beds:2,suite:true}, K10:{t:"4-bed ensuite",beds:4,dog:true},
-  Lillstugan:{t:"Cottage · 2 singles",beds:2,dog:true}, Bykhuset:{t:"Separate house",beds:2,dog:true}
-};
-const households = [
-  {id:"steffi", name:"Steffi",                  rooms:["K3"], people:1, self:true},
-  {id:"isa",    name:"Isa & Annie",             rooms:["K1"], people:2, self:true},
-  {id:"andy",   name:"Andy, Mia, Livia & Elis", rooms:["K2","K9"], people:4, self:true, note:"includes Livia & Elis (K2)"},
-  {id:"hanna",  name:"Hanna & Nick",            rooms:["K8","K5"], people:4, self:true, note:"includes Benji & Vilmer (K5)"},
-  {id:"jan",    name:"Jan & Ingalill",          rooms:["K10"], people:2, self:true, note:{sv:"+ hund", en:"+ dog", nl:"+ hond"}},
-  {id:"gf",     name:"Giedre & Fredrik",        rooms:["Bykhuset"], people:2, self:false, note:{sv:"+ hund", en:"+ dog", nl:"+ hond"}},
-  {id:"zygge",  name:"Zygge & Maria",           rooms:["K6"], people:2, self:false},
-  {id:"viggo",  name:"Viggo & Bianca",          rooms:["K4"], people:2, self:false},
-  {id:"k7",     name:"Nadine & Leona",           rooms:["K7"], people:2, self:false},
-  {id:"lill",   name:"Babyte & Agne",           rooms:["Lillstugan"], people:2, self:false, note:{sv:"+ vår hund", en:"+ our dog", nl:"+ onze hond"}},
-];
-households.forEach(h=>{
-  h.roomTotal = h.rooms.reduce((s,r)=>s+roomPrice[r],0);
-  h.bfTotal = h.people*BF;
-  h.bbqTotal = h.people*BBQ;
-  h.saunaShare = Math.round(SAUNA/households.length);
-  h.total = h.roomTotal + h.bfTotal + h.bbqTotal + h.saunaShare;
-  h.paid = false;
-});
+/* ---------- trip data (data.json is the single source of truth) ---------- */
+let BF, BBQ, NIGHTS, SAUNA, BF_PER_NIGHT;
+let rooms = {}, roomOrder = [], households = [];
+let totalGuests = 0, totalDogs = 0, bookingTotal = 0;
+
+async function loadData(){
+  const res = await fetch('data.json', { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`data.json — HTTP ${res.status}`);
+  const data = await res.json();
+
+  NIGHTS       = data.rates.nights;
+  BF           = data.rates.breakfastPerPerson;
+  BF_PER_NIGHT = data.rates.breakfastPerPersonPerNight;
+  BBQ          = data.rates.bbqPerPerson;
+  SAUNA        = data.rates.saunaTotal;
+
+  rooms      = data.rooms;
+  roomOrder  = Object.keys(rooms);
+  households = data.households;
+
+  households.forEach(h=>{
+    h.roomTotal  = h.rooms.reduce((s,r)=>s+rooms[r].price,0);
+    h.bfTotal    = h.people*BF;
+    h.bbqTotal   = h.people*BBQ;
+    h.saunaShare = Math.round(SAUNA/households.length);
+    h.total      = h.roomTotal + h.bfTotal + h.bbqTotal + h.saunaShare;
+    h.paid       = false;
+  });
+
+  totalGuests  = households.reduce((s,h)=>s+h.people,0);
+  totalDogs    = households.reduce((s,h)=>s+(h.dogs||0),0);
+  bookingTotal = households.reduce((s,h)=>s+h.total,0);
+}
+
+/* Figures that are derived from the data, not written in the markup. */
+function renderStats(){
+  document.getElementById('stat-rooms-n').textContent = roomOrder.length;
+  document.getElementById('stat-total-n').textContent = fmt(bookingTotal);
+}
+
 const fmt = n => n.toLocaleString("sv-SE");
 
 async function loadPaidState() {
@@ -524,10 +531,10 @@ function roomLabel(h){
 }
 function detailHTML(h){
   const T = i18n[pageLang];
-  let rows = h.rooms.map(r=>`<div><span class="muted">Room ${r} · ${roomMeta[r].t} · ${NIGHTS} nights × ${fmt(roomPrice[r]/NIGHTS)} kr</span><span>${fmt(roomPrice[r])} kr</span></div>`).join("");
-  rows += `<div><span class="muted">${T.detailBf} · ${h.people} × 189 kr × 2</span><span>${fmt(h.bfTotal)} kr</span></div>`;
+  let rows = h.rooms.map(r=>`<div><span class="muted">Room ${r} · ${rooms[r].type} · ${NIGHTS} nights × ${fmt(rooms[r].price/NIGHTS)} kr</span><span>${fmt(rooms[r].price)} kr</span></div>`).join("");
+  rows += `<div><span class="muted">${T.detailBf} · ${h.people} × ${BF_PER_NIGHT} kr × ${NIGHTS}</span><span>${fmt(h.bfTotal)} kr</span></div>`;
   rows += `<div><span class="muted">${T.detailBbq} · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
-  rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.detailSauna}</a> · 1 000 kr ÷ ${households.length} ${T.households}</span><span>${fmt(h.saunaShare)} kr</span></div>`;
+  rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.detailSauna}</a> · ${fmt(SAUNA)} kr ÷ ${households.length} ${T.households}</span><span>${fmt(h.saunaShare)} kr</span></div>`;
   rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(h.total)} kr</b></span></div>`;
   rows += `<div class="ppl">${h.people} ${h.people===1?T.people1:T.peopleN}${hn(h)? " · "+hn(h):""}</div>`;
   return rows;
@@ -617,24 +624,22 @@ function updateProgress(){
 
 function renderWindows(){
   const T = i18n[pageLang];
-  const order=["K1","K2","K3","K4","K5","K6","K7","K8","K9","K10","Lillstugan","Bykhuset"];
-  document.getElementById("windows").innerHTML = order.map(r=>{
-    const m=roomMeta[r];
+  document.getElementById("windows").innerHTML = roomOrder.map(r=>{
+    const m=rooms[r];
     const h=households.find(x=>x.rooms.includes(r));
     let cls="win", status="";
     if(!h){ status=T.roomAvailable; }
     else if(h.self){ if(h.paid){cls+=" settled";status=T.roomPaid;} else {status=T.roomAwaiting;} }
     else { cls+=" settled"; status=""; }
-    const whoOverride = {K5:"Benji & Vilmer", K2:"Livia & Elis", K9:"Andy & Mia"};
-    const who = whoOverride[r] || (h ? h.name : "");
+    const who = m.occupants || (h ? h.name : "");
     let badges="";
     if(m.dog) badges+='<span class="badge dog">'+T.dogLabel+'</span>';
     return `<div class="${cls}" onclick="document.getElementById('settle').scrollIntoView()">
       <div class="badges">${badges}</div>
       <div class="rid">${r}</div>
-      <div class="rtype">${m.t}</div>
-      <div class="rprice">${fmt(roomPrice[r]/NIGHTS)} ${T.perNight}</div>
-      <div class="rstay">${fmt(roomPrice[r])} ${T.stayTotal}</div>
+      <div class="rtype">${m.type}</div>
+      <div class="rprice">${fmt(m.price/NIGHTS)} ${T.perNight}</div>
+      <div class="rstay">${fmt(m.price)} ${T.stayTotal}</div>
       <div class="rwho">${who}</div>
       <div class="status">${status}</div>
     </div>`;
@@ -681,7 +686,8 @@ function applyPageLang(l){
   document.getElementById('meta-nights').textContent = T.nights;
   document.getElementById('meta-dinner').innerHTML = T.dinnerMeta;
   document.getElementById('meta-bf').textContent = T.bfMeta;
-  document.getElementById('meta-guests').textContent = T.guestsMeta;
+  document.getElementById('meta-guests').textContent = T.guestsMeta
+    .replace('{guests}', totalGuests).replace('{dogs}', totalDogs);
   document.getElementById('maps-label').textContent = T.mapsLabel;
   document.getElementById('stat-rooms-l').textContent = T.statRooms;
   document.getElementById('stat-total-l').textContent = T.statTotal;
@@ -696,6 +702,7 @@ function applyPageLang(l){
   ['sv','en','nl'].forEach(x => document.getElementById('lang-'+x).classList.toggle('on', x===l));
   renderProg();
   renderPractical();
+  renderStats();
   renderHouseholds();
   updateProgress();
 }
@@ -782,9 +789,19 @@ if (isAdmin) {
 } else {
   document.getElementById('message').style.display = 'none';
 }
-applyPageLang(pageLang);
-loadPaidState();
-renderMessage();
+(async function init(){
+  try {
+    await loadData();
+  } catch(e) {
+    console.error('Failed to load data.json:', e);
+    document.getElementById('owing').innerHTML =
+      `<div style="color:var(--rose);font-size:.9rem;padding:16px 0">Could not load trip data (${e.message}). Reload the page.</div>`;
+    return;
+  }
+  applyPageLang(pageLang);
+  await loadPaidState();
+  renderMessage();
+})();
 </script>
 </body>
 </html>

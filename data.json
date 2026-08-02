@@ -1,0 +1,44 @@
+{
+  "_comment": "Single source of truth for the trip. Edit here — index.html derives every figure (guest count, dog count, per-household totals, booking total, collection goal) from this file at load time.",
+
+  "rates": {
+    "nights": 2,
+    "breakfastPerPerson": 378,
+    "breakfastPerPersonPerNight": 189,
+    "bbqPerPerson": 100,
+    "saunaTotal": 1000
+  },
+
+  "rooms": {
+    "K1":         { "price": 1760, "type": "2-bed · shared bath",     "beds": 2 },
+    "K2":         { "price": 2940, "type": "4-bed · shared bath",     "beds": 4, "occupants": "Livia & Elis" },
+    "K3":         { "price": 1760, "type": "2-bed · shared bath",     "beds": 2 },
+    "K4":         { "price": 1760, "type": "2-bed · shared bath",     "beds": 2 },
+    "K5":         { "price": 1760, "type": "2-bed · shared bath",     "beds": 2, "occupants": "Benji & Vilmer" },
+    "K6":         { "price": 1760, "type": "2-bed · shared bath",     "beds": 2 },
+    "K7":         { "price": 2940, "type": "4-bed · shared bath",     "beds": 4 },
+    "K8":         { "price": 4400, "type": "Junior suite · sauna",    "beds": 2, "suite": true },
+    "K9":         { "price": 4400, "type": "Junior suite · lake view","beds": 2, "suite": true, "occupants": "Andy & Mia" },
+    "K10":        { "price": 3500, "type": "4-bed ensuite",           "beds": 4, "dog": true },
+    "Lillstugan": { "price": 1500, "type": "Cottage · 2 singles",     "beds": 2, "dog": true },
+    "Bykhuset":   { "price": 1980, "type": "Separate house",          "beds": 2, "dog": true }
+  },
+
+  "households": [
+    { "id": "steffi", "name": "Steffi",                  "rooms": ["K3"],         "people": 1, "self": true },
+    { "id": "isa",    "name": "Isa & Annie",             "rooms": ["K1"],         "people": 2, "self": true },
+    { "id": "andy",   "name": "Andy, Mia, Livia & Elis", "rooms": ["K2", "K9"],   "people": 4, "self": true,
+      "note": "includes Livia & Elis (K2)" },
+    { "id": "hanna",  "name": "Hanna & Nick",            "rooms": ["K8", "K5"],   "people": 4, "self": true,
+      "note": "includes Benji & Vilmer (K5)" },
+    { "id": "jan",    "name": "Jan & Ingalill",          "rooms": ["K10"],        "people": 2, "self": true,
+      "dogs": 1, "note": { "sv": "+ hund", "en": "+ dog", "nl": "+ hond" } },
+    { "id": "gf",     "name": "Giedre & Fredrik",        "rooms": ["Bykhuset"],   "people": 2, "self": false,
+      "dogs": 1, "note": { "sv": "+ hund", "en": "+ dog", "nl": "+ hond" } },
+    { "id": "zygge",  "name": "Zygge & Maria",           "rooms": ["K6"],         "people": 2, "self": false },
+    { "id": "viggo",  "name": "Viggo & Bianca",          "rooms": ["K4"],         "people": 2, "self": false },
+    { "id": "k7",     "name": "Nadine & Leona",          "rooms": ["K7"],         "people": 2, "self": false },
+    { "id": "lill",   "name": "Babyte & Agne",           "rooms": ["Lillstugan"], "people": 2, "self": false,
+      "dogs": 1, "note": { "sv": "+ vår hund", "en": "+ our dog", "nl": "+ onze hond" } }
+  ]
+}
