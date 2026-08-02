@@ -111,12 +111,7 @@
   .tag.onus{background:rgba(217,139,139,.14);color:var(--rose);border:1px solid rgba(217,139,139,.3)}
   .tag.paid-status{background:rgba(127,163,137,.14);color:var(--pine);border:1px solid rgba(127,163,137,.3)}
   .tag.pending{background:rgba(236,228,212,.06);color:var(--limestone-dim);border:1px solid var(--line)}
-  .btn-paid{font-family:"Space Grotesk",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
-    padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);background:transparent;
-    color:var(--limestone-dim);cursor:pointer;font-weight:600;transition:all .18s}
-  .btn-paid:hover{border-color:var(--pine);color:var(--pine)}
   .hh.paid{background:linear-gradient(180deg,rgba(127,163,137,.12),var(--water))}
-  .hh.paid .btn-paid{background:var(--pine);border-color:var(--pine);color:#0c2531}
   .hh.paid .hh-amt{color:var(--limestone-dim)}
   .hh.paid .hh-amt .kr{text-decoration:none}
 
@@ -128,6 +123,27 @@
   .hh-detail .muted{color:var(--limestone-dim)}
   .hh-detail .ppl{font-family:"Space Grotesk",monospace;font-size:.82rem;color:var(--limestone-dim);
     padding-top:12px}
+  .tag.partial{background:rgba(232,162,61,.14);color:var(--lamp);border:1px solid rgba(232,162,61,.34)}
+  .hh.part{background:linear-gradient(180deg,rgba(232,162,61,.09),var(--water))}
+  .hh-amt .paid-so-far{color:var(--lamp)}
+  .hh-out{color:var(--lamp)}
+  .hh-detail .pay-head{margin-top:6px;padding-top:14px;border-top:1px solid var(--line-strong);
+    font-family:"Space Grotesk",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--limestone-dim)}
+  .hh-detail .pay-out{color:var(--lamp)}
+  .hh-detail .pay-over{color:var(--pine)}
+  .btn-x{background:transparent;border:0;color:var(--limestone-dim);cursor:pointer;font-size:1rem;
+    line-height:1;padding:0 2px;margin-left:8px}
+  .btn-x:hover{color:var(--rose)}
+  .hh-detail .inner > div.pay-add{display:flex;justify-content:flex-start;gap:8px;flex-wrap:wrap;
+    align-items:center;padding-top:12px;border-bottom:0}
+  .pay-add input{width:120px;background:var(--water-deep);border:1px solid var(--line-strong);border-radius:8px;
+    padding:8px 12px;color:var(--limestone);font-family:"Space Grotesk",monospace;font-size:.85rem}
+  .pay-add button{background:var(--lamp);color:#0c2531;border:0;border-radius:8px;padding:8px 14px;
+    font-family:"Space Grotesk",monospace;font-weight:700;font-size:.74rem;cursor:pointer;
+    letter-spacing:.06em;text-transform:uppercase}
+  .pay-add button.alt{background:transparent;border:1px solid var(--line-strong);color:var(--limestone-dim);font-weight:600}
+  .pay-add button.alt:hover{border-color:var(--lamp-soft);color:var(--lamp-soft)}
 
   /* ---------- rooms / windows ---------- */
   .windows{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
@@ -330,7 +346,7 @@ const TOKEN_KEY = 'borghamn_gh_token';
 const isAdmin = new URLSearchParams(location.search).get('admin') === ADMIN_SECRET;
 let ghToken = ''; try { ghToken = localStorage.getItem(TOKEN_KEY) || ''; } catch(e) {}
 let paidSha = null;
-let paidData = { paid: {} };
+let paidData = { payments: {} };
 let pageLang = 'sv';
 try { pageLang = localStorage.getItem('borghamn_lang') || 'sv'; } catch(e) {}
 const store = {
@@ -368,7 +384,12 @@ const i18n = {
       ['Middag', 'Fredag kl 19:00, förbeställning krävs. Menyn kommer ~en vecka i förväg; andelar skickas separat.'],
       ['Hundar', 'Tillåtna endast i K10, Lillstugan och Bykhuset (max en hund per rum). Jan &amp; Ingalills hund i K10; en hund hos Giedre &amp; Fredrik i Bykhuset; en hund i Lillstugan.'],
     ],
-    pending: 'Väntar', paid: 'Betalt', markPaid: 'Markera betald',
+    pending: 'Väntar', paid: 'Betalt',
+    partlyPaid: 'Delbetalt', left: 'kvar',
+    payments: 'Betalningar', payment: 'Betalning', noPayments: 'inga ännu',
+    outstanding: 'Kvar att betala', overpaid: 'Överbetalt',
+    amount: 'Belopp', addPayment: 'Lägg till', payRest: 'Betala resten',
+    clearPayments: 'Nollställ', removePayment: 'Ta bort betalning',
     of: 'av', people1: 'person', peopleN: 'personer',
     detailBf: 'Frukost', detailBbq: 'BBQ-middag', detailSauna: 'Bastu', detailTotal: 'Totalt',
     roomPaid: 'Betalt ✓', roomAwaiting: 'Väntar', roomAvailable: 'Ledigt', dogLabel: 'hund', perNight: 'kr/natt', stayTotal: 'kr totalt',
@@ -402,7 +423,12 @@ const i18n = {
       ['Dinner', 'Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.'],
       ['Dogs', "Allowed only in K10, Lillstugan and Bykhuset (max one dog per room). Jan &amp; Ingalill's dog in K10; one dog with Giedre &amp; Fredrik in Bykhuset; one dog in Lillstugan."],
     ],
-    pending: 'Pending', paid: 'Paid', markPaid: 'Mark paid',
+    pending: 'Pending', paid: 'Paid',
+    partlyPaid: 'Part paid', left: 'left',
+    payments: 'Payments', payment: 'Payment', noPayments: 'none yet',
+    outstanding: 'Still to pay', overpaid: 'Overpaid',
+    amount: 'Amount', addPayment: 'Add', payRest: 'Pay the rest',
+    clearPayments: 'Reset', removePayment: 'Remove payment',
     of: 'of', people1: 'person', peopleN: 'people',
     detailBf: 'Breakfast', detailBbq: 'BBQ dinner', detailSauna: 'Sauna', detailTotal: 'Total',
     roomPaid: 'Paid ✓', roomAwaiting: 'Awaiting', roomAvailable: 'Available', dogLabel: 'dog', perNight: 'kr/night', stayTotal: 'kr total',
@@ -436,7 +462,12 @@ const i18n = {
       ['Diner', 'Vrijdag 19:00, voorbestelling vereist. Menu komt ~een week van tevoren; aandelen worden apart verstuurd.'],
       ['Honden', 'Alleen toegestaan in K10, Lillstugan en Bykhuset (max één hond per kamer). Jan &amp; Ingalills hond in K10; één hond bij Giedre &amp; Fredrik in Bykhuset; één hond in Lillstugan.'],
     ],
-    pending: 'Openstaand', paid: 'Betaald', markPaid: 'Markeer betaald',
+    pending: 'Openstaand', paid: 'Betaald',
+    partlyPaid: 'Deels betaald', left: 'resterend',
+    payments: 'Betalingen', payment: 'Betaling', noPayments: 'nog geen',
+    outstanding: 'Nog te betalen', overpaid: 'Te veel betaald',
+    amount: 'Bedrag', addPayment: 'Toevoegen', payRest: 'Rest betalen',
+    clearPayments: 'Wissen', removePayment: 'Betaling verwijderen',
     of: 'van', people1: 'persoon', peopleN: 'personen',
     detailBf: 'Ontbijt', detailBbq: 'BBQ-diner', detailSauna: 'Sauna', detailTotal: 'Totaal',
     roomPaid: 'Betaald ✓', roomAwaiting: 'In behandeling', roomAvailable: 'Beschikbaar', dogLabel: 'hond', perNight: 'kr/nacht', stayTotal: 'kr totaal',
@@ -476,6 +507,10 @@ async function loadData(){
   totalGuests  = households.reduce((s,h)=>s+h.people,0);
   totalDogs    = households.reduce((s,h)=>s+(h.dogs||0),0);
   bookingTotal = households.reduce((s,h)=>s+h.total,0);
+
+  // The first render happens before paid.json has arrived, so give every
+  // household a defined (empty) payment state up front.
+  applyPayments();
 }
 
 /* Figures that are derived from the data, not written in the markup. */
@@ -498,7 +533,56 @@ async function loadPaidState() {
       paidData = JSON.parse(atob(data.content.replace(/\n/g, '')));
     }
   } catch(e) {}
-  households.forEach(h => { h.paid = !!(paidData.paid && paidData.paid[h.id]); });
+  applyPayments();
+  renderHouseholds();
+  renderWindows();
+}
+
+/* Payments are a list of amounts per household. A household is settled once
+   they sum to its total; anything less is partly paid, anything more is over. */
+function applyPayments(){
+  if (paidData.paid && !paidData.payments) {
+    // Pre-amounts format. Deliberately not migrated: it records *that* someone
+    // paid but not how much, and inventing a figure would be worse than showing
+    // them as unpaid until a real amount is entered.
+    console.warn('paid.json is in the old paid/true format; no amounts to show.');
+  }
+  if (!paidData.payments) paidData.payments = {};
+
+  households.forEach(h => {
+    h.payments   = (paidData.payments[h.id] || []).filter(n => typeof n === 'number' && isFinite(n) && n > 0);
+    h.collected  = h.payments.reduce((s,n)=>s+n, 0);
+    h.settled    = h.collected >= h.total;
+    h.partial    = h.collected > 0 && !h.settled;
+    h.outstanding= Math.max(0, h.total - h.collected);
+    h.overpaid   = Math.max(0, h.collected - h.total);
+    h.paid       = h.settled;   // alias still read by renderWindows
+  });
+}
+
+function addPayment(id, amount){
+  if (!(amount > 0)) return;
+  if (!paidData.payments[id]) paidData.payments[id] = [];
+  paidData.payments[id].push(amount);
+  persistPayments();
+}
+function removePayment(id, idx){
+  const list = paidData.payments[id];
+  if (!list || idx < 0 || idx >= list.length) return;
+  list.splice(idx, 1);
+  persistPayments();
+}
+function settleInFull(id){
+  const h = households.find(x=>x.id===id);
+  if (h.outstanding > 0) addPayment(id, h.outstanding);
+}
+function clearPayments(id){
+  delete paidData.payments[id];
+  persistPayments();
+}
+function persistPayments(){
+  applyPayments();
+  savePaidState();
   renderHouseholds();
   renderWindows();
 }
@@ -511,7 +595,7 @@ async function savePaidState() {
     const res = await fetch(GH_API, {
       method: 'PUT',
       headers: { 'Authorization': `Bearer ${ghToken}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'Update paid state', content, sha: paidSha })
+      body: JSON.stringify({ message: 'Update payments', content, sha: paidSha })
     });
     if (res.ok) { const d = await res.json(); paidSha = d.content.sha; }
   } catch(e) { console.error('Failed to save paid state:', e); }
@@ -536,8 +620,44 @@ function detailHTML(h){
   rows += `<div><span class="muted">${T.detailBbq} · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
   rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.detailSauna}</a> · ${fmt(SAUNA)} kr ÷ ${households.length} ${T.households}</span><span>${fmt(h.saunaShare)} kr</span></div>`;
   rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(h.total)} kr</b></span></div>`;
+  rows += paymentsHTML(h);
   rows += `<div class="ppl">${h.people} ${h.people===1?T.people1:T.peopleN}${hn(h)? " · "+hn(h):""}</div>`;
   return rows;
+}
+
+function paymentsHTML(h){
+  const T = i18n[pageLang];
+  let rows = `<div class="pay-head"><span>${T.payments}</span><span>${
+    h.payments.length ? fmt(h.collected)+' kr' : `<span class="muted">${T.noPayments}</span>`}</span></div>`;
+
+  rows += h.payments.map((amt,i)=>
+    `<div><span class="muted">${T.payment} ${i+1}</span><span>${fmt(amt)} kr${
+      isAdmin ? ` <button class="btn-x" title="${T.removePayment}" onclick="removePayment('${h.id}',${i});event.stopPropagation()">×</button>` : ''
+    }</span></div>`).join('');
+
+  if (h.outstanding > 0 && h.collected > 0)
+    rows += `<div><span class="muted">${T.outstanding}</span><span class="pay-out">${fmt(h.outstanding)} kr</span></div>`;
+  if (h.overpaid > 0)
+    rows += `<div><span class="muted">${T.overpaid}</span><span class="pay-over">+${fmt(h.overpaid)} kr</span></div>`;
+
+  if (isAdmin) {
+    rows += `<div class="pay-add" onclick="event.stopPropagation()">
+      <input type="number" min="1" step="1" id="pay-in-${h.id}" placeholder="${T.amount}"
+             onkeydown="if(event.key==='Enter'){submitPayment('${h.id}');event.preventDefault()}">
+      <button onclick="submitPayment('${h.id}')">${T.addPayment}</button>
+      ${h.outstanding > 0 ? `<button class="alt" onclick="settleInFull('${h.id}')">${T.payRest} (${fmt(h.outstanding)} kr)</button>` : ''}
+      ${h.payments.length || h.settled ? `<button class="alt" onclick="clearPayments('${h.id}')">${T.clearPayments}</button>` : ''}
+    </div>`;
+  }
+  return rows;
+}
+
+function submitPayment(id){
+  const el = document.getElementById('pay-in-'+id);
+  const amt = Math.round(Number(el.value));
+  if (!(amt > 0)) { el.focus(); return; }
+  el.value = '';
+  addPayment(id, amt);
 }
 
 function renderHouseholds(){
@@ -556,22 +676,27 @@ function renderHouseholds(){
     return rows;
   }
 
-  const payingHTML = paying.map(h=>`
-    <div class="hh ${h.paid?'paid':''}" data-id="${h.id}">
+  const payingHTML = paying.map(h=>{
+    const amt = h.partial
+      ? `<span class="paid-so-far">${fmt(h.collected)}</span> <span class="kr">/</span> ${fmt(h.total)} <span class="kr">kr</span>`
+      : `${fmt(h.total)} <span class="kr">kr</span>`;
+    const tagCls = h.settled ? 'paid-status' : h.partial ? 'partial' : 'pending';
+    const tagTxt = h.settled ? '✓ '+T.paid : h.partial ? T.partlyPaid : T.pending;
+    return `
+    <div class="hh ${h.settled?'paid':''} ${h.partial?'part':''}" data-id="${h.id}">
       <div class="hh-row" onclick="toggleOpen('${h.id}',event)">
         <div>
           <div class="hh-name"><span class="chev">▶</span>${h.name}</div>
-          <div class="hh-for">${roomLabel(h)}${hn(h)?" · "+hn(h):""}</div>
+          <div class="hh-for">${roomLabel(h)}${hn(h)?" · "+hn(h):""}${
+            h.partial ? ` · <span class="hh-out">${fmt(h.outstanding)} kr ${T.left}</span>` : ''}</div>
         </div>
         <div class="hh-side" style="display:contents">
-          <div class="hh-amt">${fmt(h.total)} <span class="kr">kr</span></div>
-          ${isAdmin
-            ? `<button class="btn-paid" onclick="togglePaid('${h.id}',event)">${h.paid?'✓ '+T.paid:T.markPaid}</button>`
-            : `<span class="tag ${h.paid?'paid-status':'pending'}">${h.paid?'✓ '+T.paid:T.pending}</span>`}
+          <div class="hh-amt">${amt}</div>
+          <span class="tag ${tagCls}">${tagTxt}</span>
         </div>
       </div>
       <div class="hh-detail"><div class="inner">${detailHTML(h)}</div></div>
-    </div>`).join('');
+    </div>`;}).join('');
 
   const gfHTML = `
     <div class="hh" data-id="gf-combined">
@@ -587,39 +712,38 @@ function renderHouseholds(){
       <div class="hh-detail"><div class="inner">${coveredDetailHTML()}</div></div>
     </div>`;
 
+  // Re-rendering replaces the cards, so carry the expanded ones across.
+  const open = [...document.querySelectorAll('#owing .hh.open')].map(c=>c.dataset.id);
   document.getElementById("owing").innerHTML = payingHTML + gfHTML;
+  open.forEach(id=>{
+    const card = document.querySelector(`#owing .hh[data-id="${id}"]`);
+    if (!card) return;
+    card.classList.add('open');
+    const d = card.querySelector('.hh-detail');
+    d.style.maxHeight = d.querySelector('.inner').scrollHeight+'px';
+  });
   updateProgress();
 }
 function toggleOpen(id,e){
-  if(e.target.closest(".btn-paid")) return;
+  if(e.target.closest("button,input")) return;
   const card=document.querySelector(`.hh[data-id="${id}"]`);
   const d=card.querySelector(".hh-detail");
   const open=card.classList.toggle("open");
   d.style.maxHeight = open ? d.querySelector(".inner").scrollHeight+"px" : "0";
 }
-function togglePaid(id,e){
-  e.stopPropagation();
-  const T = i18n[pageLang];
-  const h=households.find(x=>x.id===id);
-  h.paid=!h.paid;
-  const card=document.querySelector(`.hh[data-id="${id}"]`);
-  card.classList.toggle("paid",h.paid);
-  card.querySelector(".btn-paid").textContent = h.paid? "✓ "+T.paid : T.markPaid;
-  if (!paidData.paid) paidData.paid = {};
-  paidData.paid[h.id] = h.paid;
-  savePaidState();
-  updateProgress(); renderWindows();
-}
 function updateProgress(){
   const T = i18n[pageLang];
   const owing=households.filter(h=>h.self);
-  const collected=owing.filter(h=>h.paid).reduce((s,h)=>s+h.total,0);
-  const goal=owing.reduce((s,h)=>s+h.total,0);
+  // Actual kr received, and what is genuinely still to come in. These are not
+  // simply goal - collected: an overpayment must not cancel out someone's debt.
+  const collected  = owing.reduce((s,h)=>s+h.collected, 0);
+  const goal       = owing.reduce((s,h)=>s+h.total, 0);
+  const outstanding= owing.reduce((s,h)=>s+h.outstanding, 0);
   document.getElementById("collected").textContent=fmt(collected);
   document.getElementById("goal").textContent=fmt(goal);
-  document.getElementById("remaining").textContent=fmt(goal-collected);
-  document.getElementById("paidcount").textContent=`${owing.filter(h=>h.paid).length} ${T.of} ${owing.length}`;
-  document.getElementById("barfill").style.width=(collected/goal*100)+"%";
+  document.getElementById("remaining").textContent=fmt(outstanding);
+  document.getElementById("paidcount").textContent=`${owing.filter(h=>h.settled).length} ${T.of} ${owing.length}`;
+  document.getElementById("barfill").style.width=Math.min(100, collected/goal*100)+"%";
 }
 
 function renderWindows(){
