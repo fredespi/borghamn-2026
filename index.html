@@ -130,6 +130,7 @@
   .hh-detail .pay-head{margin-top:6px;padding-top:14px;border-top:1px solid var(--line-strong);
     font-family:"Space Grotesk",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
     color:var(--limestone-dim)}
+  .hh-detail .extra-line{padding-left:14px;font-size:.85rem;opacity:.85}
   .hh-detail .pay-out{color:var(--lamp)}
   .hh-detail .pay-over{color:var(--pine)}
   .btn-x{background:transparent;border:0;color:var(--limestone-dim);cursor:pointer;font-size:1rem;
@@ -380,7 +381,7 @@ const i18n = {
       ['Ankomst', 'Incheckning kl 14:00 på fredag. Utcheckning senast kl 12:00 på söndag. Sängkläder och handdukar ingår.'],
       ['Rum', 'Juniorsviter K8 &amp; K9 (3 tr, 4 400 kr/rum): eget badrum &amp; infrabastu på rummet — en med utsikt över Vättern, en över Omberg.<br>K10 4-bädds (3 500 kr): eget badrum.<br>Vandrarhemsrum K2 &amp; K7 4-bädds (2 940 kr) och K1/K3–K6 2-bädds (1 760 kr/rum): delad dusch &amp; toalett i korridoren.<br>Lillstugan (1 500 kr): separat stuga.<br>Bykhuset (990 kr/natt, 1 980 kr): separat hus.<br><em>Priser avser hela vistelsen (2 nätter).</em>'],
       ['Nyckelkort', 'Rumsdörrarna låses automatiskt — ha alltid kortet med dig, även till badrummet på natten.'],
-      ['Frukost', 'Buffé 08:30–10:00. Hembakat bröd, ost, marmelad, grönsaker, viltkorv, frukt, yoghurt, granola, ägg, juice, kaffe &amp; te.'],
+      ['Frukost', 'Buffé 08:00–10:00. Hembakat bröd, ost, marmelad, grönsaker, viltkorv, frukt, yoghurt, granola, ägg, juice, kaffe &amp; te.'],
       ['Middag', 'Fredag kl 19:00, förbeställning krävs. Menyn kommer ~en vecka i förväg; andelar skickas separat.'],
       ['Hundar', 'Tillåtna endast i K10, Lillstugan och Bykhuset (max en hund per rum). Jan &amp; Ingalills hund i K10; en hund hos Giedre &amp; Fredrik i Bykhuset; en hund i Lillstugan.'],
     ],
@@ -419,7 +420,7 @@ const i18n = {
       ['Arrival', 'Check-in at 14:00 Friday. Check-out by 12:00 Sunday. Bed linen and towels included.'],
       ['Rooms', 'Junior suites K8 &amp; K9 (3rd floor, 4 400 kr/room): private bathroom &amp; in-room infrared sauna — one with views over Lake Vättern, one over Omberg.<br>K10 4-bed (3 500 kr): private bathroom.<br>Hostel rooms K2 &amp; K7 4-bed (2 940 kr) and K1/K3–K6 2-bed (1 760 kr/room): shared shower &amp; toilet in the corridor.<br>Lillstugan (1 500 kr): separate cottage.<br>Bykhuset (990 kr/night, 1 980 kr): separate house.<br><em>Prices cover the full stay (2 nights).</em>'],
       ['Keycards', 'Room doors lock automatically — carry your card at all times, even to the bathroom at night.'],
-      ['Breakfast', 'Buffet 08:30–10:00. Home-baked bread, cheese, jam, vegetables, game sausage, fruit, yoghurt, granola, eggs, juice, coffee &amp; tea.'],
+      ['Breakfast', 'Buffet 08:00–10:00. Home-baked bread, cheese, jam, vegetables, game sausage, fruit, yoghurt, granola, eggs, juice, coffee &amp; tea.'],
       ['Dinner', 'Friday 19:00, pre-order required. Menu arrives ~a week ahead; shares sent separately.'],
       ['Dogs', "Allowed only in K10, Lillstugan and Bykhuset (max one dog per room). Jan &amp; Ingalill's dog in K10; one dog with Giedre &amp; Fredrik in Bykhuset; one dog in Lillstugan."],
     ],
@@ -458,7 +459,7 @@ const i18n = {
       ['Aankomst', 'Inchecken om 14:00 op vrijdag. Uitchecken voor 12:00 op zondag. Beddengoed en handdoeken inbegrepen.'],
       ['Kamers', 'Juniorsuite K8 &amp; K9 (3e verdieping, 4 400 kr/kamer): eigen badkamer &amp; infraroodsauna op de kamer — één met uitzicht over het Vätternmeer, één over Omberg.<br>K10 4-persoons (3 500 kr): eigen badkamer.<br>Hostelkamers K2 &amp; K7 4-persoons (2 940 kr) en K1/K3–K6 2-persoons (1 760 kr/kamer): gedeelde douche &amp; toilet op de gang.<br>Lillstugan (1 500 kr): apart huisje.<br>Bykhuset (990 kr/nacht, 1 980 kr): apart huis.<br><em>Prijzen zijn voor het volledige verblijf (2 nachten).</em>'],
       ['Sleutelkaarten', 'Kamerdeuern sluiten automatisch — draag je kaart altijd bij je, ook naar het toilet \'s nachts.'],
-      ['Ontbijt', 'Buffet 08:30–10:00. Zelfgebakken brood, kaas, jam, groenten, wildworst, fruit, yoghurt, granola, eieren, sap, koffie &amp; thee.'],
+      ['Ontbijt', 'Buffet 08:00–10:00. Zelfgebakken brood, kaas, jam, groenten, wildworst, fruit, yoghurt, granola, eieren, sap, koffie &amp; thee.'],
       ['Diner', 'Vrijdag 19:00, voorbestelling vereist. Menu komt ~een week van tevoren; aandelen worden apart verstuurd.'],
       ['Honden', 'Alleen toegestaan in K10, Lillstugan en Bykhuset (max één hond per kamer). Jan &amp; Ingalills hond in K10; één hond bij Giedre &amp; Fredrik in Bykhuset; één hond in Lillstugan.'],
     ],
@@ -500,7 +501,9 @@ async function loadData(){
     h.bfTotal    = h.people*BF;
     h.bbqTotal   = h.people*BBQ;
     h.saunaShare = Math.round(SAUNA/households.length);
-    h.total      = h.roomTotal + h.bfTotal + h.bbqTotal + h.saunaShare;
+    h.extras     = h.extras || [];
+    h.extrasTotal= h.extras.reduce((s,e)=>s+e.amount, 0);
+    h.total      = h.roomTotal + h.bfTotal + h.bbqTotal + h.saunaShare + h.extrasTotal;
     h.paid       = false;
   });
 
@@ -619,6 +622,7 @@ function detailHTML(h){
   rows += `<div><span class="muted">${T.detailBf} · ${h.people} × ${BF_PER_NIGHT} kr × ${NIGHTS}</span><span>${fmt(h.bfTotal)} kr</span></div>`;
   rows += `<div><span class="muted">${T.detailBbq} · ${h.people} × ${BBQ} kr</span><span>${fmt(h.bbqTotal)} kr</span></div>`;
   rows += `<div><span class="muted"><a href="https://www.borghamn.com/vedeldad-bastu-badtunna/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">${T.detailSauna}</a> · ${fmt(SAUNA)} kr ÷ ${households.length} ${T.households}</span><span>${fmt(h.saunaShare)} kr</span></div>`;
+  rows += h.extras.map(e=>`<div><span class="muted">${e.label[pageLang]}</span><span>${fmt(e.amount)} kr</span></div>`).join('');
   rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(h.total)} kr</b></span></div>`;
   rows += paymentsHTML(h);
   rows += `<div class="ppl">${h.people} ${h.people===1?T.people1:T.peopleN}${hn(h)? " · "+hn(h):""}</div>`;
@@ -669,7 +673,9 @@ function renderHouseholds(){
 
   function coveredDetailHTML(){
     let rows = covered.map(h=>
-      `<div><span class="muted">${h.name} · ${roomLabel(h)}${hn(h)?' · '+hn(h):''}</span><span>${fmt(h.total)} kr</span></div>`
+      `<div><span class="muted">${h.name} · ${roomLabel(h)}${hn(h)?' · '+hn(h):''}</span><span>${fmt(h.total)} kr</span></div>` +
+      // itemise anything beyond the standard room/breakfast/BBQ/sauna split
+      h.extras.map(e=>`<div><span class="muted extra-line">↳ ${e.label[pageLang]}</span><span>${fmt(e.amount)} kr</span></div>`).join('')
     ).join('');
     rows += `<div><span>${T.detailTotal}</span><span><b>${fmt(coveredTotal)} kr</b></span></div>`;
     rows += `<div class="ppl">${covered.reduce((s,h)=>s+h.people,0)} ${T.peopleN} · ${covered.length} ${T.roomsHead.toLowerCase()}</div>`;
@@ -783,12 +789,12 @@ function renderProg(){
     </div>
     <div class="prog-day">
       <div class="prog-date">${T.progSat}</div>
-      <div class="prog-event"><span class="prog-time">08:30</span><span class="prog-desc">${T.bfBuf}<span class="prog-note">${T.bfNote}</span></span></div>
+      <div class="prog-event"><span class="prog-time">08:00</span><span class="prog-desc">${T.bfBuf}<span class="prog-note">${T.bfNote}</span></span></div>
       <div class="prog-event"><span class="prog-time">${T.evening}</span><span class="prog-desc">${T.bbqDinner}<span class="prog-note">${T.bbqNote}</span></span></div>
     </div>
     <div class="prog-day">
       <div class="prog-date">${T.progSun}</div>
-      <div class="prog-event"><span class="prog-time">08:30</span><span class="prog-desc">${T.bfBuf}<span class="prog-note">${T.bfNote}</span></span></div>
+      <div class="prog-event"><span class="prog-time">08:00</span><span class="prog-desc">${T.bfBuf}<span class="prog-note">${T.bfNote}</span></span></div>
       <div class="prog-event"><span class="prog-time">12:00</span><span class="prog-desc">${T.checkoutEv}</span></div>
     </div>`;
 }
@@ -849,8 +855,8 @@ Our Borghamn weekend is booked — Fri 28 → Sun 30 Aug, two nights at Kommenda
 
 Programme:
 Friday: Check-in from 14:00 · Sauna 14–17 · Dinner together 19:00 (restaurant, pre-order required — menu coming ~a week ahead)
-Saturday: Breakfast buffet 08:30–10:00 · BBQ dinner in the evening (we cook!)
-Sunday: Breakfast buffet 08:30–10:00 · Check-out by 12:00
+Saturday: Breakfast buffet 08:00–10:00 · BBQ dinner in the evening (we cook!)
+Sunday: Breakfast buffet 08:00–10:00 · Check-out by 12:00
 
 Room assignments, what your household owes and payment status are all on the trip page:
 https://fredespi.github.io/borghamn-2026/
@@ -864,8 +870,8 @@ Ons Borghamn-weekend is geboekt — vr 28 → zo 30 aug, twee nachten in Kommend
 
 Programma:
 Vrijdag: Inchecken vanaf 14:00 · Sauna 14–17 · Gezamenlijk diner 19:00 (restaurant, voorbestelling vereist — menu komt ~een week van tevoren)
-Zaterdag: Ontbijtbuffet 08:30–10:00 · BBQ-diner 's avonds (wij koken!)
-Zondag: Ontbijtbuffet 08:30–10:00 · Uitchecken voor 12:00
+Zaterdag: Ontbijtbuffet 08:00–10:00 · BBQ-diner 's avonds (wij koken!)
+Zondag: Ontbijtbuffet 08:00–10:00 · Uitchecken voor 12:00
 
 Kamerindelingen, wat jouw huishouden verschuldigd is en de betalingsstatus staan op de weekendpagina:
 https://fredespi.github.io/borghamn-2026/
@@ -878,8 +884,8 @@ Vår Borghamn-helg är bokad — fre 28 → sön 30 aug, två nätter på Kommen
 
 Program:
 Fredag: Incheckning från kl 14:00 · Bastu 14–17 · Middag tillsammans kl 19:00 (restaurang, förbeställning krävs — meny kommer ca en vecka innan)
-Lördag: Frukostbuffé 08:30–10:00 · BBQ-middag på kvällen (vi lagar!)
-Söndag: Frukostbuffé 08:30–10:00 · Utcheckning senast kl 12:00
+Lördag: Frukostbuffé 08:00–10:00 · BBQ-middag på kvällen (vi lagar!)
+Söndag: Frukostbuffé 08:00–10:00 · Utcheckning senast kl 12:00
 
 Rumstilldelning, vad ditt hushåll ska betala och betalningsstatus finns på helgsidan:
 https://fredespi.github.io/borghamn-2026/

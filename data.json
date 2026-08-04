@@ -1,6 +1,8 @@
 {
   "_comment": "Single source of truth for the trip. Edit here — index.html derives every figure (guest count, dog count, per-household totals, booking total, collection goal) from this file at load time.",
 
+  "_sauna": "The venue charges 1 200 kr for the sauna (booking #40148). Only 1 000 is split across the households; Giedre & Fredrik carry the remaining 200 as an extra, so nobody else's total moved after the confirmation arrived.",
+
   "rates": {
     "nights": 2,
     "breakfastPerPerson": 378,
@@ -34,7 +36,13 @@
     { "id": "jan",    "name": "Jan & Ingalill",          "rooms": ["K10"],        "people": 2, "self": true,
       "dogs": 1, "note": { "sv": "+ hund", "en": "+ dog", "nl": "+ hond" } },
     { "id": "gf",     "name": "Giedre & Fredrik",        "rooms": ["Bykhuset"],   "people": 2, "self": false,
-      "dogs": 1, "note": { "sv": "+ hund", "en": "+ dog", "nl": "+ hond" } },
+      "dogs": 1, "note": { "sv": "+ hund", "en": "+ dog", "nl": "+ hond" },
+      "extras": [
+        { "amount": 200,
+          "label": { "sv": "Bastu, resterande del (1 200 kr totalt)",
+                     "en": "Sauna, remaining share (1 200 kr in total)",
+                     "nl": "Sauna, resterend deel (1 200 kr totaal)" } }
+      ] },
     { "id": "zygge",  "name": "Zygge & Maria",           "rooms": ["K6"],         "people": 2, "self": false },
     { "id": "viggo",  "name": "Viggo & Bianca",          "rooms": ["K4"],         "people": 2, "self": false },
     { "id": "k7",     "name": "Nadine & Leona",          "rooms": ["K7"],         "people": 2, "self": false },
