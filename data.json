@@ -3,6 +3,22 @@
 
   "_sauna": "The venue charges 1 200 kr for the sauna (booking #40148). Only 1 000 is split across the households; Giedre & Fredrik carry the remaining 200 as an extra, so nobody else's total moved after the confirmation arrived.",
 
+  "_banner": "Set show:false to hide it. Deliberately says paid *to Kommendanten* — the venue is settled, but households still owe Giedre & Fredrik, so this must not read as 'everyone is square'.",
+
+  "banner": {
+    "show": true,
+    "text": {
+      "sv": "Bokningen är bekräftad och betald till Kommendanten",
+      "en": "Booking confirmed and paid to Kommendanten",
+      "nl": "Boeking bevestigd en betaald aan Kommendanten"
+    },
+    "detail": {
+      "sv": "Bokning #40148 · 40 354 kr · avräkningen mellan hushållen fortsätter nedan",
+      "en": "Booking #40148 · 40 354 kr · settling up between households continues below",
+      "nl": "Boeking #40148 · 40 354 kr · afrekening tussen huishoudens loopt hieronder"
+    }
+  },
+
   "rates": {
     "nights": 2,
     "breakfastPerPerson": 378,

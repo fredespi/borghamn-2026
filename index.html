@@ -43,6 +43,15 @@
     font-size:.72rem;letter-spacing:.1em;cursor:pointer;font-weight:600;transition:all .15s}
   .lang-sel button.on{background:rgba(255,255,255,.08);color:var(--limestone);border-color:var(--limestone-dim)}
 
+  /* ---------- confirmed banner ---------- */
+  .banner{display:flex;gap:12px;align-items:flex-start;margin-top:18px;
+    background:linear-gradient(180deg,rgba(127,163,137,.16),rgba(127,163,137,.07));
+    border:1px solid rgba(127,163,137,.42);border-radius:var(--radius);padding:14px 18px}
+  .banner-tick{color:var(--pine);font-weight:700;line-height:1.5;flex-shrink:0}
+  #banner-text{font-weight:600;font-size:.95rem}
+  .banner-detail{display:block;font-family:"Space Grotesk",monospace;font-size:.76rem;
+    color:var(--limestone-dim);margin-top:3px}
+
   /* ---------- hero ---------- */
   header.hero{padding:64px 0 30px;position:relative}
   .eyebrow{font-family:"Space Grotesk",monospace;font-size:.78rem;letter-spacing:.32em;
@@ -245,6 +254,14 @@
       </div>
     </div>
     <div id="admin-ready" style="display:none;font-size:.88rem;color:var(--pine)">Payment sync active — changes save to GitHub automatically.</div>
+  </div>
+
+  <div id="banner" class="banner" style="display:none">
+    <span class="banner-tick">✓</span>
+    <span>
+      <span id="banner-text"></span>
+      <span id="banner-detail" class="banner-detail"></span>
+    </span>
   </div>
 
   <header class="hero">
@@ -478,7 +495,7 @@ const i18n = {
 
 /* ---------- trip data (data.json is the single source of truth) ---------- */
 let BF, BBQ, NIGHTS, SAUNA, BF_PER_NIGHT;
-let rooms = {}, roomOrder = [], households = [];
+let rooms = {}, roomOrder = [], households = [], banner = null;
 let totalGuests = 0, totalDogs = 0, bookingTotal = 0;
 
 async function loadData(){
@@ -492,6 +509,7 @@ async function loadData(){
   BBQ          = data.rates.bbqPerPerson;
   SAUNA        = data.rates.saunaTotal;
 
+  banner     = data.banner || null;
   rooms      = data.rooms;
   roomOrder  = Object.keys(rooms);
   households = data.households;
@@ -514,6 +532,16 @@ async function loadData(){
   // The first render happens before paid.json has arrived, so give every
   // household a defined (empty) payment state up front.
   applyPayments();
+}
+
+function renderBanner(){
+  const el = document.getElementById('banner');
+  if (!banner || !banner.show) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  document.getElementById('banner-text').textContent = banner.text[pageLang] || '';
+  const d = banner.detail ? (banner.detail[pageLang] || '') : '';
+  document.getElementById('banner-detail').textContent = d;
+  document.getElementById('banner-detail').style.display = d ? '' : 'none';
 }
 
 /* Figures that are derived from the data, not written in the markup. */
@@ -832,6 +860,7 @@ function applyPageLang(l){
   ['sv','en','nl'].forEach(x => document.getElementById('lang-'+x).classList.toggle('on', x===l));
   renderProg();
   renderPractical();
+  renderBanner();
   renderStats();
   renderHouseholds();
   updateProgress();
